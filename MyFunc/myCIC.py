@@ -26,12 +26,12 @@ def cic(pos: np.ndarray, mass, N_grid, length):
         for v in vecs:
             cube[v[0]][v[1]][v[2]] += m*np.abs(np.prod(((1-v)*step-d)))
 
-        for a in range(2):
-            for b in range(2):
-                for c in range(2):
-                    for x in [-1, 0]:
-                        for y in [-1, 0]:
-                            for z in [-1, 0]:
+        for a in range(2):                              # \
+            for b in range(2):                          # |-> indeces for cube[]
+                for c in range(2):                      # /
+                    for x in [-1, 0]:                   # \
+                        for y in [-1, 0]:               # |-> indeces for cells[]
+                            for z in [-1, 0]:           # /
                                 if np.any(cells[i]+(a, b, c)) == N_grid:
                                     for l in np.where(cells[i]+(a, b, c)==N_grid):
                                         cells[i][l]=-2

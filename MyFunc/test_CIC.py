@@ -5,24 +5,23 @@ import unittest
 
 class TestCIC(unittest.TestCase):
     def test_density(self):
-        points = np.array(((7.5, 7.5, 7.5), (0, 0, 0)))
-        masses = np.array((10, 0))
+        points = np.array(((7.5, 7.5, 7.5), (1.5, 1.5, 1.5)))
+        masses = np.array((10, 20))
         n_grid = 5
         L = 15.
-        # step = 3
-        dens_calc_333 = 10/27
-        dens_calc_334 = 10/216*4
-        dens_calc_444 = 10/216
+
+        # counting cells 0-1-2-3-4
+        # points are in (2, 2, 2) and (0, 0, 0)
+        dens_calc_222 = 10/216 * 8          # cell of 1st point
+        dens_calc_223 = 10/126 * 4          # cell with a common face with the one of 1st point
+        dens_calc_333 = 10/216              # cell with a single common vertice "
+        dens_calc_000 = 20/216 * 8          # cell of 2nd point
+        dens_calc_111 = 30/216              # cell between 1st & 2nd point, both only one vertice
+        
         dens_CIC = cic(points, masses, n_grid, L)
-        assert dens_CIC[3][3][3] - dens_calc_333 < 1e-6
-        assert dens_CIC[3][3][4] - dens_calc_334 < 1e-6
-        assert dens_CIC[4][4][4] - dens_calc_444 < 1e-6
-"""
-import numpy as np
-from myCIC import cic
-points = np.array(((0, 0, 0), (7.5, 7.5, 7.5), (6, 2, 3)))
-masses = np.array((6, 2, 3))
-dens_calc = ((5, ))
-n_grid = 3
-L = 15.
-"""
+        
+        assert dens_CIC[2][2][2] - dens_calc_222 < 1e-10
+        assert dens_CIC[2][2][3] - dens_calc_223 < 1e-10
+        assert dens_CIC[3][3][3] - dens_calc_333 < 1e-10
+        assert dens_CIC[0][0][0] - dens_calc_000 < 1e-10
+        assert dens_CIC[1][1][1] - dens_calc_111 < 1e-10
