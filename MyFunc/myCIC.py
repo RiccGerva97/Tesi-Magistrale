@@ -3,6 +3,7 @@ import numpy as np
 
 def cic(pos: np.ndarray, mass: np.ndarray, N_grid: int, length=1000):
     """A simple Cloud in a Cell algorithm, written in order to study halo catalogue from Quijote simulations.
+    
     Arguments:
     - `pos` : a numpy.ndarray containing halos' positions;
     - `mass` : an array containing halos' masses;
@@ -17,7 +18,7 @@ def cic(pos: np.ndarray, mass: np.ndarray, N_grid: int, length=1000):
     density = np.float32(np.zeros((N_grid, N_grid, N_grid)))
     
     # matrix that contains grid coordinates per particle
-    cells = np.array(np.fix(pos/step), dtype=np.int8)
+    cells = np.array(np.fix(pos/step), dtype=np.int16)
     
     # contains arrays of distance between the point and the node that indexes the cell
     dists = np.float32(pos - cells*step)
@@ -45,11 +46,15 @@ def cic(pos: np.ndarray, mass: np.ndarray, N_grid: int, length=1000):
                         for y in [-1, 0]:               # |-> indeces for cells[]
                             for z in [-1, 0]:           # /
                                 if np.any(cells[i]+(a, b, c) == N_grid):
-                                    for l in np.where(cells[i]+(a, b, c)==N_grid):
+                                    for l in np.where( cells[i] + (a, b, c) == N_grid ):
                                         cells[i][l]=-1
-                                
+                                #if np.any(np.array((cells[i][0]+x+a, cells[i][1]+y+b, cells[i][2]+z+c)) < 0):
+                                  # print("ERROR with indices: ", "\n- i = ", i, \
+                                    #    "\n- a = ", a, "\n- b = ", b, "\n- c = ", c, \
+                                     #   "\n- x = ", x, "\n- y = ", y, "\n- z = ", z, \
+                                      #  "cell: ", cells[i])
                                 density[cells[i][0]+x+a][cells[i][1]+y+b][cells[i][2]+z+c] += cube[a][b][c]
         # if i==0:
-        #     print("One cycle time: ", time.time()-t)
+        #     print("One cycle time: ", time.time()-t) 
 
     return np.float32(pow(step, -6) * density)
