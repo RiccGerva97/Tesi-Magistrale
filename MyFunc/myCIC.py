@@ -1,16 +1,16 @@
 import numpy as np
-import time
+# import time
 
 def cic(pos: np.ndarray, mass: np.ndarray, N_grid: int, length=1000):
-    """
-    A simple Cloud in a Cell algorithm, written in order to study halo catalogue from Quijote simulations.
+    """A simple Cloud in a Cell algorithm, written in order to study halo catalogue from Quijote simulations.
     Arguments:
-    - pos: a numpy.ndarray containing halos' positions;
-    - mass: an array containing halos' masses;
-    - N_grid: numbers of cells per lenght; grid must be cubic;
-    - length: total length of the simulation; default value (based on Quijote simul) 1000 Mpc/h.
+    - `pos` : a numpy.ndarray containing halos' positions;
+    - `mass` : an array containing halos' masses;
+    - `N_grid` : numbers of cells per lenght; grid must be cubic;
+    - `length` : total length of the simulation; default value (based on Quijote simul) 1000 Mpc/h.
     
-    Returns a 'N_grid^3' density matrix [in numpy.float32()].
+    Returns:
+    - density matrix, type: numpy.float32
     """
 
     step = length/N_grid
