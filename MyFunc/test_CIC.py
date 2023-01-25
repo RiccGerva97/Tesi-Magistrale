@@ -12,16 +12,16 @@ class TestCIC(unittest.TestCase):
         n_grid = 10
         L = 30.
 
-        # counting cells 0-1-2-...-29
+        # counting cells 0-1-2-...-9
         # points are in gir dcells: (2, 2, 2), (0, 0, 0) and (7, 7, 7)
-        dens_calc_222 = 10/216 * 8          # cell of 1st point
-        dens_calc_223 = 10/126 * 4          # cell with a common face with the one of 1st point
-        dens_calc_333 = 10/216              # cell with a single common vertice "
-        dens_calc_000 = 20/216 * 8          # cell of 2nd point
-        dens_calc_111 = 30/216              # cell between 1st & 2nd point, both only one vertice
-        dens_calc_999 = 20/216              # dell opposite to 2nd point -> test periodic BC
-        dens_calc_777 = 5/216 * 8           # cell of 3rd point
-        dens_calc_666 = 5/729 *(0.5*1.5*2.5)# cell with a single common vertice with the 3rd point
+        dens_calc_222 = 10/216 * 8              # cell of 1st point
+        dens_calc_223 = 10/126 * 4              # cell with a common face with the one of 1st point
+        dens_calc_333 = 10/216                  # cell with a single common vertice "
+        dens_calc_000 = 20/216 * 8              # cell of 2nd point
+        dens_calc_111 = 30/216                  # cell between 1st & 2nd point, both only one vertice
+        dens_calc_999 = 20/216                  # dell opposite to 2nd point -> test periodic BC
+        dens_calc_777 = 5/216 * 8               # cell of 3rd point
+        dens_calc_666 = 5/729 * (0.5*1.5*2.5)   # cell with a single common vertice with the 3rd point
         
         dens_CIC = cic(points, masses, n_grid, L)
         
