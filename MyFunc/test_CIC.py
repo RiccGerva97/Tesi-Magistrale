@@ -3,6 +3,8 @@ from myCIC import cic
 
 import unittest
 
+# python -m pytest test_CIC.py 
+
 class TestCIC(unittest.TestCase):
     def test_density(self):
         points = np.array(((7.5, 7.5, 7.5), (1.5, 1.5, 1.5), (21.5, 22.5, 23.5)))
