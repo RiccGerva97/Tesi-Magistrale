@@ -8,7 +8,8 @@ from kymatio.scattering3d.backend.torch_backend \
 
 # import sys
 # sys.path.insert(1, '/home/fuffolo97/TESI/MyFunc')
-from myCIC import cic
+# from MyFunc.myCIC_multiThread import cic
+from MyFunc.myCIC import cic
 
 def HaloWST(snapdir, snapnum=2, N_hgrid=128, hlength=1000, N_WSTgrid=128, j=4, l=4):
     """Funcion that evaluates Scattering Transform coefficients of first and second order,
@@ -37,8 +38,8 @@ def HaloWST(snapdir, snapnum=2, N_hgrid=128, hlength=1000, N_WSTgrid=128, j=4, l
     
     M, N, O = N_WSTgrid, N_WSTgrid, N_WSTgrid
     J, L = j, l
-    S = HarmonicScattering3D(J=J, L=L, shape=(M, N, O), sigma_0=0.8, integral_powers=[0.8])
-    Sx = S.scattering(torch.from_numpy(dens))
+    # S = HarmonicScattering3D(J=J, L=L, shape=(M, N, O), sigma_0=0.8, integral_powers=[0.8])
+    Sx = HarmonicScattering3D(J=J, L=L, shape=(M, N, O), sigma_0=0.8, integral_powers=[0.8]).scattering(torch.from_numpy(dens))
     
     first_order = []
     second_order = []
