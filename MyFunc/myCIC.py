@@ -97,7 +97,7 @@ def cic_multiP(pos: np.ndarray, mass: np.ndarray, N_grid: int, length=1000):
 
     for p in procs:
         p.join()
-
+    p.close()
     #print(p, "\n", np.shape(p), "  ", type(p))
     #print(results, "\n", np.shape(results), "  ", type(results))
     DD = np.sum(results)
@@ -119,6 +119,9 @@ def cic_multiT(pos: np.ndarray, mass: np.ndarray, N_grid: int, length=1000):
     - density matrix, type: numpy.float32
     """
 
+    import time
+    start = time.time()
+
     N_points = len(pos)
     step = length/N_grid
     density = np.float32(np.zeros((N_grid, N_grid, N_grid)))
@@ -131,26 +134,39 @@ def cic_multiT(pos: np.ndarray, mass: np.ndarray, N_grid: int, length=1000):
     vecs = np.array(((0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1), \
             (1, 1, 0), (1, 0, 1), (0, 1, 1), (1, 1, 1)), dtype=np.int8)
 
-    pool = ThreadPool(4)
+    pool = ThreadPool(3)
 
-    # results = pool.starmap(lambda i: miafunzione_mT(mass, N_grid, step, density, cells, dists, vecs, i), \
-    #     range(N_points)
-        # [range(0, N_points//6), range(N_points//6, N_points//3), range(N_points//3, N_points//2), range(N_points//2, 2*N_points//3),\
-         #    range(2*N_points//3, 5*N_points//6), range(5*N_points//6, N_points)]
+    def innerfunction(range_i):
+        start = time.time()
+        result = miafunzione_mT(mass, N_grid, step, cells, dists, vecs, range_i)
+        print(f"Un thread terminato in {time.time() - start} secondi")
+        return result
+
+    results = pool.map(
+        # lambda range_of_i: miafunzione_mT(mass, N_grid, step, cells, dists, vecs, range_of_i),
+        innerfunction,
+        [range(i * N_points // 3, (i+1) * N_points // 3) for i in range(3)]
+
+        # [range(0, N_points//6), 
+        # range(N_points//6, N_points//3), range(N_points//3, N_points//2), range(N_points//2, 2*N_points//3),\
+        #     range(2*N_points//3, 5*N_points//6), range(5*N_points//6, N_points)]
+    )
+
         # [range(0, N_points//4), range(N_points//4, N_points//2), range(N_points//2, 3*N_points//4), range(3*N_points//4, N_points)]
     #    )
     
     #density = pool.map(miafunzione1(mass, N_grid, step, density, cells, dists, vecs), range(N_points))
 
     # results = pool.map(lambda i: miafunzione_mT(mass, N_grid, step, density, cells, dists, vecs, i), range(N_points))
-    results = pool.map(lambda i:\
-                                    miafunzione_mT(mass, N_grid, step, density, cells, dists, vecs, i), \
-                            range(N_points)\
-                                                    )
+    # results = pool.map(lambda i:\
+    #                                 miafunzione_mT(mass, N_grid, step, density, cells, dists, vecs, i), \
+    #                         range(N_points)\
+    #                                                 )
     pool.close()
     pool.join()
     # pool.close()
     #pool.join()
+    print("TEMPO COMPLESSIVO: ", (time.time() - start))
 
  #   threads = []
 #    for i in range(4):
@@ -164,7 +180,13 @@ def cic_multiT(pos: np.ndarray, mass: np.ndarray, N_grid: int, length=1000):
 
 
     # return np.float32(pow(step, -6) * np.sum(results))
-    return results
+
+    out = results[0]
+    for intermediate_result in results[1:]:
+        out += intermediate_result
+    return np.float32(pow(step,-6) * out)
+
+    # return results
 
 
 def miafunzione1(m, N_grid, step, density, CELL, DIST, vecs):
@@ -172,17 +194,32 @@ def miafunzione1(m, N_grid, step, density, CELL, DIST, vecs):
     for v in vecs:
         cube[v[0]][v[1]][v[2]] += m*np.abs(np.prod(((1-v)*step-DIST)))
 
-    for a in range(2):                              # \
-        for b in range(2):                          # |-> indeces for cube[]
-            for c in range(2):                      # /
-                for x in [-1, 0]:                   # \
-                    for y in [-1, 0]:               # |-> indeces for cells[]
-                        for z in [-1, 0]:           # /
-                            for l in np.where( CELL + [a, b, c] == N_grid )[0]:     # control for periodic b.c.
-                                CELL[l]=-1
-                            #print("density: ", np.shape(density), "\n       ", np.shape(density[c[0]+x+a][c[1]+y+b][c[2]+z+c]),\
-                            #        "cube: ",cube, "\n      ", cube[a][b][c])
-                            density[CELL[0]+x+a][CELL[1]+y+b][CELL[2]+z+c] += cube[a][b][c]
+    for a in [0,1]:                               # \
+        for b in [0,1]:                           # |-> indeces for cube[]
+            for c in [0,1]:                       # /
+                for l in np.where( CELL + [a, b, c] == N_grid )[0]:     # control for periodic b.c.
+                    CELL[l]=-1
+                
+                cubo = cube[a][b][c]
+                cell0 = CELL[0]
+                cell1 = CELL[1]
+                cell2 = CELL[2]
+                
+                density[cell0+a][cell1+b][cell2+c-1] += cubo
+                density[cell0+a][cell1+b][cell2+c] += cubo
+                density[cell0+a][cell1+b-1][cell2+c-1] += cubo
+                density[cell0+a][cell1+b-1][cell2+c] += cubo
+                density[cell0+a-1][cell1+b][cell2+c-1] += cubo
+                density[cell0+a-1][cell1+b][cell2+c] += cubo
+                density[cell0+a-1][cell1+b-1][cell2+c-1] += cubo
+                density[cell0+a-1][cell1+b-1][cell2+c] += cubo
+                
+                # for x in [-1, 0]:                   # \
+                #     for y in [-1, 0]:               # |-> indeces for cells[]
+                #         for z in [-1, 0]:           # /            
+                #             #print("density: ", np.shape(density), "\n       ", np.shape(density[c[0]+x+a][c[1]+y+b][c[2]+z+c]),\
+                #             #        "cube: ",cube, "\n      ", cube[a][b][c])
+                #             density[cell0+x+a][cell1+y+b][cell2+z+c] += cubo
 
 def miafunzione(mass, N_grid, step, density, cells, dists, vecs, i):
     cube = np.zeros((2, 2, 2))
@@ -205,25 +242,28 @@ def miafunzione(mass, N_grid, step, density, cells, dists, vecs, i):
 
     return density
 
-def miafunzione_mT(mass, N_grid, step, density, cells, dists, vecs, i):
-    cube = np.zeros((2, 2, 2))
-    # print("mass: ", mass, "\nmass[i]: ", mass[i], " \nmass[i][0]: ", mass[i][0], "\n")
-    # print("cells: ", cells, "\ncells[i]: ", cells[i], " \ncells[i][0]: ", cells[i][0], "\n\n")
-    for v in vecs:
-        cube[v[0]][v[1]][v[2]] += mass[i]*np.abs(np.prod(((1-v)*step-dists[i])))
+def miafunzione_mT(mass, N_grid, step, cells, dists, vecs, range_i):
+    density = np.float32(np.zeros((N_grid, N_grid, N_grid)))
 
-    CELL = cells[i]
+    for i in range_i:
+        cube = np.zeros((2, 2, 2))
+        # print("mass: ", mass, "\nmass[i]: ", mass[i], " \nmass[i][0]: ", mass[i][0], "\n")
+        # print("cells: ", cells, "\ncells[i]: ", cells[i], " \ncells[i][0]: ", cells[i][0], "\n\n")
+        for v in vecs:
+            cube[v[0]][v[1]][v[2]] += mass[i]*np.abs(np.prod(((1-v)*step-dists[i])))
 
-    for a in range(2):                              # \
-        for b in range(2):                          # |-> indeces for cube[]
-            for c in range(2):                      # /
-                for x in [-1, 0]:                   # \
-                    for y in [-1, 0]:               # |-> indeces for cells[]
-                        for z in [-1, 0]:           # /
-                            for l in np.where( CELL + [a, b, c] == N_grid )[0]:     # control for periodic b.c.
-                                CELL[l]=-1
-                            #print("density: ", np.shape(density), "\n       ", np.shape(density[c[0]+x+a][c[1]+y+b][c[2]+z+c]),\
-                            #        "cube: ",cube, "\n      ", cube[a][b][c])
-                            density[CELL[0]+x+a][CELL[1]+y+b][CELL[2]+z+c] += cube[a][b][c]
+        CELL = cells[i]
+
+        for a in range(2):                              # \
+            for b in range(2):                          # |-> indeces for cube[]
+                for c in range(2):                      # /
+                    for x in [-1, 0]:                   # \
+                        for y in [-1, 0]:               # |-> indeces for cells[]
+                            for z in [-1, 0]:           # /
+                                for l in np.where( CELL + [a, b, c] == N_grid )[0]:     # control for periodic b.c.
+                                    CELL[l]=-1
+                                #print("density: ", np.shape(density), "\n       ", np.shape(density[c[0]+x+a][c[1]+y+b][c[2]+z+c]),\
+                                #        "cube: ",cube, "\n      ", cube[a][b][c])
+                                density[CELL[0]+x+a][CELL[1]+y+b][CELL[2]+z+c] += cube[a][b][c]
 
     return density
