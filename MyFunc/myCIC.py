@@ -189,6 +189,65 @@ def cic_multiT(pos: np.ndarray, mass: np.ndarray, N_grid: int, length=1000):
     # return results
 
 
+def cic_last(pos, mass, N_grid, step, density, cells, dists, vecs):
+    N_points = len(pos)
+    
+    cores = 3
+    pool = ThreadPool(cores)
+
+    def innerfunction(range_i):
+        result = miafunzione_last(mass, N_grid, step, cells, dists, vecs, range_i)
+        return result
+
+    results = pool.map(
+        # lambda range_of_i: miafunzione_mT(mass, N_grid, step, cells, dists, vecs, range_of_i),
+        innerfunction,
+        [range(i * N_points // cores, (i+1) * N_points // cores) for i in range(cores)]
+    )
+    for i in range(N_points):
+        miafunzione_last(mass[i], N_grid, step, density, cells[i], dists[i], vecs)
+ 
+    out = results[0]
+    for intermediate_result in results[1:]:
+        out += intermediate_result
+    return np.float32(pow(step,-6) * out)
+
+
+def miafunzione_last(mass, pos, N_grid, step):
+    density = np.float32(np.zeros((N_grid, N_grid, N_grid)))
+    cells = np.array(np.fix(pos/step), dtype=np.int16)
+    dists = np.float32(pos - cells*step)
+    vecs = np.array(((0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1), \
+        (1, 1, 0), (1, 0, 1), (0, 1, 1), (1, 1, 1)), dtype=np.int8)
+    
+    cube = np.zeros((2, 2, 2))
+    for v in vecs:
+        cube[v[0]][v[1]][v[2]] += m*np.abs(np.prod(((1-v)*step-DIST)))
+
+    for a in [0,1]:                               # \
+        for b in [0,1]:                           # |-> indeces for cube[]
+            for c in [0,1]:                       # /
+                for l in np.where( CELL + [a, b, c] == N_grid )[0]:     # control for periodic b.c.
+                    CELL[l]=-1
+                
+                cubo = cube[a][b][c]
+                cell0 = CELL[0]
+                cell1 = CELL[1]
+                cell2 = CELL[2]
+                
+                density[cell0+a][cell1+b][cell2+c-1] += cubo
+                density[cell0+a][cell1+b][cell2+c] += cubo
+                density[cell0+a][cell1+b-1][cell2+c-1] += cubo
+                density[cell0+a][cell1+b-1][cell2+c] += cubo
+                density[cell0+a-1][cell1+b][cell2+c-1] += cubo
+                density[cell0+a-1][cell1+b][cell2+c] += cubo
+                density[cell0+a-1][cell1+b-1][cell2+c-1] += cubo
+                density[cell0+a-1][cell1+b-1][cell2+c] += cubo
+   
+    return density
+
+
+
 def miafunzione1(m, N_grid, step, density, CELL, DIST, vecs):
     cube = np.zeros((2, 2, 2))
     for v in vecs:
