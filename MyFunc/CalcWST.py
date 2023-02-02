@@ -6,9 +6,6 @@ from kymatio.torch import HarmonicScattering3D
 from kymatio.scattering3d.backend.torch_backend \
     import TorchBackend3D
 
-# import sys
-# sys.path.insert(1, '/home/fuffolo97/TESI/MyFunc')
-# from MyFunc.myCIC_multiThread import cic
 from MyFunc.myCIC import cic
 
 def HaloWST(snapdir, snapnum=2, N_hgrid=128, hlength=1000, N_WSTgrid=128, j=4, l=4):
