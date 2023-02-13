@@ -6,7 +6,8 @@ from kymatio.torch import HarmonicScattering3D
 from kymatio.scattering3d.backend.torch_backend \
     import TorchBackend3D
 
-from MyFunc.myCIC import cic
+# from MyFunc.myCIC import cic
+from myCIC import cic
 
 def HaloWST(snapdir, snapnum=2, N_hgrid=128, hlength=1000, N_WSTgrid=128, j=4, l=4):
     """Funcion that evaluates Scattering Transform coefficients of first and second order,
@@ -33,16 +34,19 @@ def HaloWST(snapdir, snapnum=2, N_hgrid=128, hlength=1000, N_WSTgrid=128, j=4, l
     mass = datas.GroupMass * 1e10                  # masses in M_sun/h
     dens = cic(pos_h, mass, N_hgrid, hlength)
     
-    M, N, O = N_WSTgrid, N_WSTgrid, N_WSTgrid
-    J, L = j, l
     # S = HarmonicScattering3D(J=J, L=L, shape=(M, N, O), sigma_0=0.8, integral_powers=[0.8])
-    Sx = HarmonicScattering3D(J=J, L=L, shape=(M, N, O), sigma_0=0.8, integral_powers=[0.8]).scattering(torch.from_numpy(dens))
+
+#    M, N, O = N_WSTgrid, N_WSTgrid, N_WSTgrid
+#    J, L = j, l    
+#    Sx = HarmonicScattering3D(J=J, L=L, shape=(M, N, O), sigma_0=0.8, integral_powers=[0.8]).scattering(torch.from_numpy(dens))
     
+    Sx = HarmonicScattering3D(J=j, L=l, shape=(N_WSTgrid, N_WSTgrid, N_WSTgrid), sigma_0=0.8, integral_powers=[0.8]).scattering(torch.from_numpy(dens))
+
     first_order = []
     second_order = []
 
-    for a in range(L+1):
-        for b in range(J+1):
+    for a in range(l+1):
+        for b in range(j+1):
             first_order.append(Sx[b, a, 0])
         second_order.append(Sx[5:,a,0].numpy())
 

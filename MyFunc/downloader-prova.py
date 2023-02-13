@@ -37,7 +37,7 @@ for root_dir_raw in ls(root_path):
     for inner_dir in ls(inner_path):
         final_remote_path = f"{inner_path}/{inner_dir}/groups_002"
 
-        download(final_remote_path, "/~/tester")
+        download(final_remote_path, "/media/fuffolo97/HDD1/UNI/Tesi/Halos_Fof")
         # exit()
 
     # break
