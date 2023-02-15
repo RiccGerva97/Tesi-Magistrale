@@ -10,6 +10,7 @@
 - creato file per calcolare i coefficienti di scattering per una cosmologia (estendibile a più) ("calc_WST_halo.py")
 - migliorati indirizzi cartelle nei file per uso generico per pull da GitHub
 
+</br>
 
 ### 01/27
 #### Primo aggiornamento di changelog 

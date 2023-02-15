@@ -2,6 +2,8 @@ import sys
 sys.path.insert(1, './MyFunc')
 from CalcWST import HaloWST_f
 
+import pickle
+
 # define desired redshift
 snapnum = 2
 z_dict = {4:0.0, 3:0.5, 2:1.0, 1:2.0, 0:3.0}
@@ -26,3 +28,27 @@ for folder in folders:
     for i in range(350):
         snapdir = root + folder +'/%d'%i
         HaloWST_f(first_file, second_file, snapdir)
+
+# for i in range(350):
+#     with open(first_file, 'rb') as Ff:
+#         while True:
+#             try:
+#                 a = pickle.load(Ff)
+#                 # do things
+#             except EOFError:
+#                 break
+#             # possible
+#             # else:
+#             # ...
+
+# for i in range(350):
+#     with open(second_file, 'rb') as Sf:
+#         while True:
+#             try:
+#                 a = pickle.load(Sf)
+#                 # do things
+#             except EOFError:
+#                 break
+#             # possible
+#             # else:
+#             # ...
