@@ -4,6 +4,8 @@
 Modificato il file per il download da Globus:
 - errori nei path per l'indirizzo della cartella locale (c'erano alcune "//")
 - errore con Globus: modificato il file 'accessPaths.tcl' per permettere alla cartella di destinazione i diritti di lettura/scrittura (vedi [qui](https://docs.globus.org/how-to/globus-connect-personal-linux/#config-paths))
+    <a href="https://docs.globus.org/how-to/globus-connect-personal-linux/#config-paths" target="_blank">qui</a>
+
 - aggiunta documentazione per "downloader-prova.py"
 - modificato nome "downloader-prova.py" $\rightarrow$ "downloader-globus.py"
 
