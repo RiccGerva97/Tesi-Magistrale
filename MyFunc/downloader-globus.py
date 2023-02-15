@@ -1,6 +1,17 @@
 import subprocess
 import shlex
 
+"""A python script to download from Globus choosen halo catalogues.
+You must pay attention to:
+- have a Globus account
+- modify online and local repositories UUID (`ep1` and `ep2` variables)
+- modify online starting path (`root_path` variable)
+- modify your persolal download path destination (search for comment below inside `download` function)
+- set your persolal download path destination avaiable to reading/writing by Globus (https://docs.globus.org/how-to/globus-connect-personal-linux/#config-paths)
+"""
+
+
+
 ep1 = "e0eae0aa-5bca-11ea-9683-0e56c063f437"
 ep2 = "bbcfa486-90ec-11ed-959b-63a4785a3eec"
 root_path = f"{ep1}:Halos/FoF"
@@ -37,7 +48,7 @@ for root_dir_raw in ls(root_path):
     for inner_dir in ls(inner_path):
         final_remote_path = f"{inner_path}{inner_dir}groups_002"
 
-        download(final_remote_path, "/media/fuffolo97/HDD1/UNI/Tesi")
+        download(final_remote_path, "/media/fuffolo97/HDD1/UNI/Tesi")   # <- modify here your personal path
         # exit()
 
     # break
