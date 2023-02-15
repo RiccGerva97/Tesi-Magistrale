@@ -33,7 +33,7 @@ for folder in folders:
 #     with open(first_file, 'rb') as Ff:
 #         while True:
 #             try:
-#                 a = pickle.load(Ff)
+#                 first_order_coeffs.append(pickle.load(Ff))
 #                 # do things
 #             except EOFError:
 #                 break
@@ -45,7 +45,7 @@ for folder in folders:
 #     with open(second_file, 'rb') as Sf:
 #         while True:
 #             try:
-#                 a = pickle.load(Sf)
+#                 second_order_coeffs.append(pickle.load(Sf))
 #                 # do things
 #             except EOFError:
 #                 break
