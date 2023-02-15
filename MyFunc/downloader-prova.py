@@ -3,7 +3,7 @@ import shlex
 
 ep1 = "e0eae0aa-5bca-11ea-9683-0e56c063f437"
 ep2 = "bbcfa486-90ec-11ed-959b-63a4785a3eec"
-root_path = f"{ep1}:/Halos/FoF/"
+root_path = f"{ep1}:Halos/FoF"
 
 
 def ls(path):
@@ -35,9 +35,9 @@ for root_dir_raw in ls(root_path):
 
     inner_path = f"{root_path}/{root_dir}"
     for inner_dir in ls(inner_path):
-        final_remote_path = f"{inner_path}/{inner_dir}/groups_002"
+        final_remote_path = f"{inner_path}{inner_dir}groups_002"
 
-        download(final_remote_path, "/media/fuffolo97/HDD1/UNI/Tesi/Halos_Fof")
+        download(final_remote_path, "/media/fuffolo97/HDD1/UNI/Tesi")
         # exit()
 
     # break
