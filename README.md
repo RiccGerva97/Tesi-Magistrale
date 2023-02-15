@@ -13,8 +13,9 @@ Il primo passo è stato utilizzare le simulazioni n-body di Quijote:
 ### MyFunc
 Contiene librerie create per facilitare i calcoli nei notebook jupyter.
 - CalcWST: funzione che ritorna i coefficienti di scattering dando una matrice densità;
-- downloader-prova: script in python per scaricare da Globus Connect le simulazioni di aloni;
-- myCIC [...]: contiene vari algoritmi per provare il multithreading.
+- downloader-globus: script in python per scaricare da Globus le simulazioni di aloni;
+- myCIC [...]: contiene vari algoritmi per provare il multithreading;
+- Try_pickle: cartella con relativi file per proivare la libreria pickle.
 
 ### Try_01-density field
 Contiene prove per la manipolazione dati delle simulaizoni di materia oscura.

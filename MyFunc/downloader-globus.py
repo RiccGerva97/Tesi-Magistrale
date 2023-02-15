@@ -1,6 +1,3 @@
-import subprocess
-import shlex
-
 """A python script to download from Globus choosen halo catalogues.
 You must pay attention to:
 - have a Globus account
@@ -10,7 +7,8 @@ You must pay attention to:
 - set your persolal download path destination avaiable to reading/writing by Globus (https://docs.globus.org/how-to/globus-connect-personal-linux/#config-paths)
 """
 
-
+import subprocess
+import shlex
 
 ep1 = "e0eae0aa-5bca-11ea-9683-0e56c063f437"
 ep2 = "bbcfa486-90ec-11ed-959b-63a4785a3eec"
