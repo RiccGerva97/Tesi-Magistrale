@@ -2,8 +2,8 @@ import sys
 sys.path.insert(1, './MyFunc')
 from CalcWST import HaloWST_f
 
-import pickle
 import os
+import pickle
 
 # define desired redshift
 snapnum = 2
@@ -25,7 +25,6 @@ second_order_coeffs = []
 
 # loop over cosmologies
 for folder in folders:
-    
     if os.path.exists(folder+Ff):
         os.remove(folder+Ff)
     if os.path.exists(folder+Sf):
@@ -36,28 +35,28 @@ for folder in folders:
         snapdir = root + folder +'/%d'%i
         HaloWST_f(folder+Ff, folder+Sf, snapdir)
 
-for folder in folders:
-    for i in range(350):
-        with open(folder+Ff, 'rb') as Ff:
-            while True:
-                try:
-                    first_order_coeffs.append(pickle.load(Ff))
-                    # do things
-                except EOFError:
-                    break
-                # possible
-                # else:
-                # ...
+# for folder in folders:
+#     for i in range(350):
+#         with open(folder+Ff, 'rb') as Ff:
+#             while True:
+#                 try:
+#                     first_order_coeffs.append(pickle.load(Ff))
+#                     # do things
+#                 except EOFError:
+#                     break
+#                 # possible
+#                 # else:
+#                 # ...
 
-for folder in folders:
-    for i in range(350):
-        with open(folder+Sf, 'rb') as Sf:
-            while True:
-                try:
-                    second_order_coeffs.append(pickle.load(Sf))
-                    # do things
-                except EOFError:
-                    break
-                # possible
-                # else:
-                # ...
+# for folder in folders:
+#     for i in range(350):
+#         with open(folder+Sf, 'rb') as Sf:
+#             while True:
+#                 try:
+#                     second_order_coeffs.append(pickle.load(Sf))
+#                     # do things
+#                 except EOFError:
+#                     break
+#                 # possible
+#                 # else:
+#                 # ...

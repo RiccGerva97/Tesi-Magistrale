@@ -1,5 +1,6 @@
 import numpy as np
 import pickle
+import gc
 import torch
 import readfof
 
@@ -30,6 +31,8 @@ def HaloWST(snapdir, snapnum=2, N_hgrid=128, hlength=1000, N_WSTgrid=128, j=4, l
         * second order scattering transform coefficients
     """
 
+    gc.collect()
+
     datas = readfof.FoF_catalog(snapdir, snapnum, read_IDs=False)
     pos_h = datas.GroupPos/1e3                     # positions in Mpc/h
     mass = datas.GroupMass * 1e10                  # masses in M_sun/h
@@ -42,6 +45,11 @@ def HaloWST(snapdir, snapnum=2, N_hgrid=128, hlength=1000, N_WSTgrid=128, j=4, l
 #    Sx = HarmonicScattering3D(J=J, L=L, shape=(M, N, O), sigma_0=0.8, integral_powers=[0.8]).scattering(torch.from_numpy(dens))
     
     Sx = HarmonicScattering3D(J=j, L=l, shape=(N_WSTgrid, N_WSTgrid, N_WSTgrid), sigma_0=0.8, integral_powers=[0.8]).scattering(torch.from_numpy(dens))
+
+    del datas
+    del pos_h
+    del mass
+    del dens
 
     first_order = []
     second_order = []
