@@ -1,14 +1,14 @@
 import numpy as np
+import time
 import pickle
 import gc
-import torch
 import readfof
+import torch
 
 from kymatio.torch import HarmonicScattering3D
 from kymatio.scattering3d.backend.torch_backend \
     import TorchBackend3D
 
-# from MyFunc.myCIC import cic
 from myCIC import cic
 
 def HaloWST(snapdir, snapnum=2, N_hgrid=128, hlength=1000, N_WSTgrid=128, j=4, l=4):
@@ -46,10 +46,7 @@ def HaloWST(snapdir, snapnum=2, N_hgrid=128, hlength=1000, N_WSTgrid=128, j=4, l
     
     Sx = HarmonicScattering3D(J=j, L=l, shape=(N_WSTgrid, N_WSTgrid, N_WSTgrid), sigma_0=0.8, integral_powers=[0.8]).scattering(torch.from_numpy(dens))
 
-    del datas
-    del pos_h
-    del mass
-    del dens
+    del datas, pos_h, mass, dens
 
     first_order = []
     second_order = []
@@ -59,9 +56,11 @@ def HaloWST(snapdir, snapnum=2, N_hgrid=128, hlength=1000, N_WSTgrid=128, j=4, l
             first_order.append(Sx[b, a, 0])
         second_order.append(Sx[5:,a,0].numpy())
 
+    del Sx
+
     return (first_order, second_order)
 
-def HaloWST_f(first_file, second_file, snapdir, snapnum=2, N_hgrid=128, hlength=1000, N_WSTgrid=128, j=4, l=4):
+def HaloWST_f(first_file, second_file, snapdir, snapnum=2, N_hgrid=128, hlength=1000, N_WSTgrid=128, j=4, l=4, i=-1):
     """Funcion that evaluates Scattering Transform coefficients of first and second order,
     using a halo database from Quijote simulations.
 
@@ -76,10 +75,17 @@ def HaloWST_f(first_file, second_file, snapdir, snapnum=2, N_hgrid=128, hlength=
       to calculate WST coefficients (def: 128)
     - `j` : coefficient for scattering transform evaluation (def: 4)
     - `l` : coefficient for scattering transform evaluation (def: 4)
+    - `i` : oprional, svariable for print execution time, takes value from iterable object of for loop
 
     Returns:
-    - prints fist and second order scattering coefficients into teo different files
+    - prints fist and second order scattering coefficients into two different files
     """
+
+    # empty RAM
+    gc.collect()
+
+    if i != -1:
+        start = time.time()
 
     datas = readfof.FoF_catalog(snapdir, snapnum, read_IDs=False)
     pos_h = datas.GroupPos/1e3                     # positions in Mpc/h
@@ -93,13 +99,16 @@ def HaloWST_f(first_file, second_file, snapdir, snapnum=2, N_hgrid=128, hlength=
 
     for a in range(l+1):
         for b in range(j+1):
-            first_order.append(Sx[b, a, 0])
+            first_order.append(Sx[b, a, 0].numpy())
         second_order.append(Sx[5:,a,0].numpy())
 
     file_one = open(first_file, 'ab')
-    pickle.dumb(first_order, file_one)
+    pickle.dump(first_order, file_one)
     file_one.close()
     
     file_two = open(second_file, 'ab')
-    pickle.dumb(second_order, file_two)
+    pickle.dump(second_order, file_two)
     file_two.close()
+
+    if i != -1:
+        print(f"Ended in {time.time() - start} seconds ({i}°)")

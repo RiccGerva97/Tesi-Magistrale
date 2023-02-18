@@ -1,5 +1,11 @@
 # CHANGELOG
 
+### 02/18
+- implemented progress bar in 'calc_WST_halos.py'
+- aggiunta variabile 'i' alla funzione 'HaloWST_f' (in 'CalcWST.py') per possibilità di stampa a schermo dei tempi
+
+</br>
+
 ### 02/15
 - modificato il file per il download da Globus:
     * errori nei path per l'indirizzo della cartella locale (c'erano alcune "//")
