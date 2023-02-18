@@ -29,14 +29,15 @@ def cic(pos: np.ndarray, mass: np.ndarray, N_grid: int, length=1000):
     # for loops over all points
     for i in range(N_points):
         miafunzione(mass[i], N_grid, step, density, cells[i], dists[i], vecs)
-   
-    return np.float32(pow(step, -6) * density)
 
+    return np.float32(pow(step, -6) * density)
 
 def miafunzione(m: float, N_grid: int, step: float, density, CELL, DIST, vecs):
     """A function that takes halo parameters and its distribution information and calculates its contribution 
     to every veritces of its cell; than it assegnates those values to the communicating cells.
-    n.b.: modifies `density`."""
+    n.b.: modifies `density`.
+    """
+    
     cube = np.zeros((2, 2, 2))
     for v in vecs:
         cube[v[0]][v[1]][v[2]] += m*np.abs(np.prod(((1-v)*step-DIST)))

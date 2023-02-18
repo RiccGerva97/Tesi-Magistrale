@@ -15,8 +15,11 @@ z_dict = {4:0.0, 3:0.5, 2:1.0, 1:2.0, 0:3.0}
 redshift = z_dict[snapnum]
 
 # define output name files with coefficients 
-Ff = '_first_order'
-Sf = '_second_order'
+# Fif = '_first_order.wst'
+# Sef = '_second_order.wst'
+Fif = '_first_order.wst'
+Sef = '_second_order.wst'
+
 
 # define root path where to find hale catalogues 
 root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/FoF/'
@@ -28,22 +31,22 @@ folders = ['fiducial']
 for folder in folders:
 
     # delete existing file, want a new one (not extending it)
-    if os.path.exists(folder+Ff):
-        os.remove(folder+Ff)
-    if os.path.exists(folder+Sf):
-        os.remove(folder+Sf)
+    if os.path.exists(folder+Fif):
+        os.remove(folder+Fif)
+    if os.path.exists(folder+Sef):
+        os.remove(folder+Sef)
     
     # loop over the different realizations
     for i in tqdm(range(2)):
         snapdir = root + folder +'/%d'%i
-        HaloWST_f(folder+Ff, folder+Sf, snapdir)
+        HaloWST_f(folder+Fif, folder+Sef, snapdir)
 
 first_order_coeffs = []
 second_order_coeffs = []
 
 # for folder in folders:
 #     for i in range(350):
-#         with open(folder+Ff, 'rb') as Ff:
+#         with open(folder+Fif, 'rb') as Ff:
 #             while True:
 #                 try:
 #                     first_order_coeffs.append(pickle.load(Ff))
@@ -56,7 +59,7 @@ second_order_coeffs = []
 
 # for folder in folders:
 #     for i in range(350):
-#         with open(folder+Sf, 'rb') as Sf:
+#         with open(folder+Sef, 'rb') as Sf:
 #             while True:
 #                 try:
 #                     second_order_coeffs.append(pickle.load(Sf))

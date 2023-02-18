@@ -6,14 +6,22 @@ La tesi ha come obbittivo il calcolo di informazione portato dai coefficienti di
 Il primo passo è stato utilizzare le simulazioni n-body di Quijote:
 - usare la libreria 'kymatio' su una semplice distribuzione di densità di materia oscura -> Try;
 - usare la libreria 'kymatio' su distribuzioni di aloni, ottenue dalle pprecedenti tramite metodo FoF;
-    * è stato necessario creare un algoritmo Cloud In a Cell per generare una matrice densità da una serie di punti .discreti
+    * è stato necessario creare un algoritmo Cloud In a Cell per generare una matrice densità da una serie di punti discreti;
+- creare funzioni per calcolare le matrici di Fisher dai coefficienti di scattering.
 
 ## Cartelle
+
+### Principale
+Contiene:
+- i file in output contenenti i coefficienti di scattering, divisi per cosomologia e ordine;
+- calc_WST_halos: calcola i coefficienti di scattering partendo da cataloghi di aloni (usando nel mentre un algoritmo CiC);
+* README, CHANGELOG e profileroutput.out; file di "servizio". 
 
 ### MyFunc
 Contiene librerie create per facilitare i calcoli nei notebook jupyter.
 - CalcWST: funzione che ritorna i coefficienti di scattering dando una matrice densità;
 - downloader-globus: script in python per scaricare da Globus le simulazioni di aloni;
+- Fisher: contiene funzioni per calcolare la matrice di Fischer e un vettore contenente gli errori minimi sui parametri cosmologici dai coefficienti di scattering;
 - myCIC [...]: contiene vari algoritmi per provare il multithreading;
 - Try_pickle: cartella con relativi file per proivare la libreria pickle.
 
