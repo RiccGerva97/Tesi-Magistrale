@@ -11,7 +11,10 @@ def JacobCosmPar(WSTc_0, WSTc_1, ComsP_0, CosmP_1):
     Jac = np.zeros((m, alpha))
     for i in range(m):
         for j in range(alpha):
-            Jac[i][j] = (WSTc_1[i]-WSTc_0[i])/(CosmP_1[j]-ComsP_0[j])
+            if CosmP_1[j] == ComsP_0[j]:
+                Jac[i][j] = 0
+            else:
+                Jac[i][j] = (WSTc_1[i]-WSTc_0[i])/(CosmP_1[j]-ComsP_0[j])
     return Jac
 
 # calculates Fisher matrix

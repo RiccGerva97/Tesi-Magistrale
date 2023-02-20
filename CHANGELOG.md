@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 02/20
+- Modificato il metodo di avvio del programma: aggiunta la possibilità di modificare attraverso linea di comando il numero di celle (per lato) della griglia di densità, della griglia per la stima dei coefficienti WST, del numero di realizzazioni da utilizzare per cosmologia e le cosmologie da usare.
+
+</br>
+
 ### 02/18
 - implemented progress bar in 'calc_WST_halos.py'
 - aggiunta variabile 'i' alla funzione 'HaloWST_f' (in 'CalcWST.py') per possibilità di stampa a schermo dei tempi
