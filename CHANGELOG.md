@@ -1,7 +1,23 @@
 # CHANGELOG
 
+### 02/22
+- spostate le funzioni CALCULUS in CalcWST.py e line_parser in arg_parser.py
+- dizionario per associare nome cosmologia(/cartella) -> parametri
+- trovato ERRORE: dovevo passare a HarmonicScattering3D nel calcolodelle WST non la matrice densità ma sovradensità
+- PROBLEMA RISCONTRATO: i dati che stavo fin ora utilizzando non sembrano essere adatti ai nostri scopi!
+
+### 02/21
+- aggiunto dizionario delle cosmologie per iterare su queste e poterle associare a un valore numerico da 0 a 10 per i cicli for
+- spostato il dizionario in un file a sé stante in MyFunc
+- sistemato il formato di output nella scrittura dei file (ora sono array di numpy)
+- creata una funzione per il calcolo di WST che utilizza MAS library al posto dell'algoritmo CIC da me creato (impiega circa 2/9 del tempo!)
+- progresso nel codice, cicli for per il calcolo delle derivare e calcolo matrice Hartlap
+
+</br>
+
 ### 02/20
 - Modificato il metodo di avvio del programma: aggiunta la possibilità di modificare attraverso linea di comando il numero di celle (per lato) della griglia di densità, della griglia per la stima dei coefficienti WST, del numero di realizzazioni da utilizzare per cosmologia e le cosmologie da usare.
+- Aggiunte funzioni per scrivere su un solo file o ritornare in un'unica variabile i coefficienti WST. 
 
 </br>
 

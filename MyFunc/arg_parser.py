@@ -1,0 +1,49 @@
+import sys
+import getopt
+from myDict import boolean
+from CalcWST import CALCULUS
+
+def line_parser(argv):
+    try:
+        opts, args = getopt.getopt(argv,"hvo:g:w:r:F:",["onefiles=","gridcells=","wstcells=","realization=","folders="])
+    except getopt.GetoptError:
+        print ('calc_WST_halo.py -o <one outfile> -g <cell density grid> -w <cell WST coeff> -r <realizations> -F <folder1 folder2 ...> -v <verbose opt>')
+        sys.exit(2)
+
+    if len(opts) == 0:
+        return CALCULUS() # giusto?
+        
+    N_hgrid, N_WSTgrid, n_realiz= '128', '128', '1'
+    togheter = False
+    folders = ['fiducial']
+    
+    for opt, arg in opts:
+        if opt in '-h':
+            print ('calc_WST_halo.py -o <one outfile> -g <cell density grid> -w <cell WST coeff> -r <realizations> -F <folder1 folder2 ...>//<ALL> -v <verbose opt>')
+            sys.exit()
+# è giusto questo if o serve un altro "operatore logico"?
+        if opt in ("-v", "--verbose"):
+            togheter = input("Write results on one file? [True/False]" or True)
+            N_hgrid = int(input("Number of cells per side of density matrix [128]: ") or "128")
+            N_WSTgrid = int(input("Number of cells per side of WST coefficients evaluation  [128]: ") or "128")
+            n_realiz = int(input("Number of cells per side of WST coefficients evaluation  [350]: ") or "350")
+            f = input("Cosmologies to evaluate WST coefficients (separated by space, type ALL for all cosmologies): ") or "fiducial"
+            if f == "ALL":
+                folders = ['EQ_m', 'EQ_p', 'fiducial', 'LC_m', 'LC_m50', 'LC_p', 'LC_p50', 'OR_CMB_m', 'OR_CMB_p', 'OR_LSS_m', 'OR_LSS_p']
+            else:
+                folders = f.split()
+        elif opt in ("-o", "--onefiles"):
+            togheter = bool(boolean[arg])
+        elif opt in ("-g", "--gridcells"):
+            N_hgrid = arg
+        elif opt in ("-w", "--wstcells"):
+            N_WSTgrid = arg
+        elif opt in ("-r", "--realization"):
+            n_realiz = arg
+        elif opt in ("-F", "--folders"):
+            if arg == "ALL":
+                folders = ['EQ_m', 'EQ_p', 'fiducial', 'LC_m', 'LC_m50', 'LC_p', 'LC_p50', 'OR_CMB_m', 'OR_CMB_p', 'OR_LSS_m', 'OR_LSS_p']
+            else:
+                folders = arg.split()
+    
+    return CALCULUS(togheter, int(N_hgrid), int(N_WSTgrid), int(n_realiz), folders)
