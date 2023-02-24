@@ -4,8 +4,8 @@ from tqdm import tqdm
 import os
 import pickle
 import sys
-sys.path.insert(1, './MyFunc')
-from myDict import order_folders
+#sys.path.insert(1, './MyFunc')
+from MyFunc.myDict import order_folders
 # from CalcWST import HaloWST_f, HaloWST_one_f
 
 togheter = False
@@ -103,7 +103,7 @@ else:
 # tra le cosmologie che hanno il parametro cosmologico in considerazione una
 # aumentato e l'altra diminuito (sempre rispetto alla fiduciale)
 
-from Fisher import JacobCosmPar, Hartlap
+from MyFunc.Fisher import JacobCosmPar, Hartlap
 
 derivates = np.zeros((len(order_folders), len(coeffs_tot[0]), len(coeffs_cosm[0])))
 

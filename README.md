@@ -9,6 +9,7 @@ Il primo passo è stato utilizzare le simulazioni n-body di Quijote:
 - usare la libreria `kymatio` su una semplice distribuzione di densità di materia oscura -> Try;
 - usare la libreria `kymatio` su distribuzioni di aloni, ottenue dalle pprecedenti tramite metodo FoF;
     * è stato necessario creare un algoritmo Cloud In a Cell per generare una matrice densità da una serie di punti discreti;
+        * alla fine uso metodo di MAS_library che una Chyton, estremamente più veloce;
 - creare funzioni per calcolare le matrici di Fisher dai coefficienti di scattering.
 
 </br>
@@ -18,6 +19,7 @@ Per poter calcolare i coefficientidi scattering è necessario modificare la vari
 Avviare lo script da line di comando; ci sono le seguenti opzioni:
 - ```$ python calc_WST_halos.py``` avvia il programma con i parametri di default (vedi sotto per i valori di default);
 - ```$ python calc_WST_halos.py -h``` dà informazioni per come passare gli argomenti opzionali modificabili:
+    * ```-o <one file>```: scrive i risultati su un file se `True`, su due se `False` (default. True);
     * ```-g <cell density grid>```: modifica il numero di celle per lato della matrice densità (default: 128);
     * ```-w <cell WST coeff>```: modifica il numero di celle per lato della griglia per il calcolo dei coefficienti di scattering (default: 128);
     * ```-r <realizations>```: modifica il numero di realizzazoni sucui calcolare i coefficienti di scattering  (default: 350);

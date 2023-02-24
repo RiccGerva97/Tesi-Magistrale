@@ -38,6 +38,13 @@ def MatFisher(H, J, Nr = 350):
     - Hartlap matrix
     - Jacobian of observables
     """
+    F = np.zeros((len(J[0]), len(J[0])))
+    for alpha in range(len(J[:0])):
+        for betha in range(len(J[:0])):
+            for i in range(len(J[0])):
+                for j in range(len(J[0])):
+                    F[alpha][betha] += J[alpha][i] * H[i][j] * J[betha][j]
+
 
     return
 
