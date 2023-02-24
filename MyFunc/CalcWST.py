@@ -255,7 +255,8 @@ def CALCULUS(togheter = True, N_hgrid = 128, N_WSTgrid = 128, n_realiz = 350, Ff
     redshift = z_dict[snapnum]
 
     # define root path where to find hale catalogues
-    root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/FoF/'
+    # root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/FoF/'
+    root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/'
 
     # choose cosmologies 
     folders = Ff

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 02/24
+- modificato downloader per scaricare dal server di San Diego
+- aggiornato dizionario 'COSMOPAR'
+
+
 ### 02/22
 - spostate le funzioni CALCULUS in CalcWST.py e line_parser in arg_parser.py
 - dizionario per associare nome cosmologia(/cartella) -> parametri

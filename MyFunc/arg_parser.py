@@ -29,7 +29,9 @@ def line_parser(argv):
             n_realiz = int(input("Number of cells per side of WST coefficients evaluation  [350]: ") or "350")
             f = input("Cosmologies to evaluate WST coefficients (separated by space, type ALL for all cosmologies): ") or "fiducial"
             if f == "ALL":
-                folders = ['EQ_m', 'EQ_p', 'fiducial', 'LC_m', 'LC_m50', 'LC_p', 'LC_p50', 'OR_CMB_m', 'OR_CMB_p', 'OR_LSS_m', 'OR_LSS_p']
+                folders = ['fiducial', 'h_m', 'h_p', 'Mnu_p', 'Mnu_pp' ,'Mnu_ppp', \
+                    'ns_m', 'ns_p', 'Ob_m', 'Ob_p', 'Ob2_m', 'Ob2_p', 'Om_m', 'Om_p', \
+                        's8_m', 's8_p', 'w_m', 'w_p']
             else:
                 folders = f.split()
         elif opt in ("-o", "--onefiles"):
@@ -42,7 +44,9 @@ def line_parser(argv):
             n_realiz = arg
         elif opt in ("-F", "--folders"):
             if arg == "ALL":
-                folders = ['EQ_m', 'EQ_p', 'fiducial', 'LC_m', 'LC_m50', 'LC_p', 'LC_p50', 'OR_CMB_m', 'OR_CMB_p', 'OR_LSS_m', 'OR_LSS_p']
+                folders = ['fiducial', 'h_m', 'h_p', 'Mnu_p', 'Mnu_pp' ,'Mnu_ppp',\
+                     'ns_m', 'ns_p', 'Ob_m', 'Ob_p', 'Ob2_m', 'Ob2_p', \
+                        'Om_m', 'Om_p', 's8_m', 's8_p', 'w_m', 'w_p']
             else:
                 folders = arg.split()
     

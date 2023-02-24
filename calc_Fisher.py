@@ -9,9 +9,9 @@ from myDict import order_folders
 # from CalcWST import HaloWST_f, HaloWST_one_f
 
 togheter = False
-N_hgrid = 128
-N_WSTgrid = 128
-n_realiz = 350
+N_hgrid = 128       # number of cells per dimension of halo distribution
+N_WSTgrid = 128     # number of cells per dimension of WST evaluation
+n_realiz = 350      # number of realization used
 
 # define desired redshift
 snapnum = 2
@@ -21,11 +21,13 @@ redshift = z_dict[snapnum]
 # define output name files with coefficients 
 # Fif = '_first_order.wst'
 # Sef = '_second_order.wst'
-Fif = '_first_order_'+str(N_hgrid)+"_"+str(N_hgrid)+"_"+str(N_hgrid)+'.wst'
-Sef = '_second_order_'+str(N_hgrid)+"_"+str(N_hgrid)+"_"+str(N_hgrid)+'.wst'
-filename = '_coefficients_'+str(N_hgrid)+"_"+str(N_hgrid)+"_"+str(N_hgrid)+'.wst'
+Fif = '_first_order_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(n_realiz)+'.wst'
+Sef = '_second_order_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(n_realiz)+'.wst'
+filename = '_coefficients_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(n_realiz)+'.wst'
 
-folders = ['EQ_m', 'EQ_p', 'fiducial', 'LC_m', 'LC_m50', 'LC_p', 'LC_p50', 'OR_CMB_m', 'OR_CMB_p', 'OR_LSS_m', 'OR_LSS_p']
+folders = ['fiducial', 'h_m', 'h_p', 'Mnu_p', 'Mnu_pp' ,'Mnu_ppp', \
+            'ns_m', 'ns_p', 'Ob_m', 'Ob_p', 'Ob2_m', 'Ob2_p', \
+            'Om_m', 'Om_p', 's8_m', 's8_p', 'w_m', 'w_p']
 
 if togheter == True:
     first_order_coeffs = 0
@@ -50,7 +52,7 @@ if togheter == True:
     #                     break
 
     for folder in folders:
-        for i in range(350):
+        for i in range(n_realiz):
             Ff = open(folder+Fif, 'rb')
             Sf = open(folder+Sef, 'rb')
             while True:
@@ -70,7 +72,7 @@ else:
         sigma = []
 
         # read all coefficients of all realizations per cosmology
-        for i in range(350):
+        for i in range(n_realiz):
             with open(folder+filename, 'rb') as Ff:
                 while True:
                     try:
@@ -103,9 +105,9 @@ else:
 
 from Fisher import JacobCosmPar, Hartlap
 
-derivates = np.zeros((10, len(coeffs_tot[0]), len(coeffs_cosm[0])))
+derivates = np.zeros((len(order_folders), len(coeffs_tot[0]), len(coeffs_cosm[0])))
 
-for i in range(10):
+for i in range(len(order_folders)):
     if i != order_folders['fiducial']:
         derivates[i] = JacobCosmPar(coeffs_tot[order_folders['fiducial']], coeffs_tot[i], coeffs_cosm[order_folders['fiducial']], coeffs_cosm[i])
     else:

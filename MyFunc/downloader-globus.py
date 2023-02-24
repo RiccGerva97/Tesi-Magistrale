@@ -10,10 +10,11 @@ You must pay attention to:
 import subprocess
 import shlex
 
-ep1 = "e0eae0aa-5bca-11ea-9683-0e56c063f437"
-ep2 = "bbcfa486-90ec-11ed-959b-63a4785a3eec"
-root_path = f"{ep1}:Halos/FoF"
-
+# ep1 = "e0eae0aa-5bca-11ea-9683-0e56c063f437"    # Quijote - NewYork
+ep1 = "f4863854-3819-11eb-b171-0ee0d5d9299f"    # Quijote - SanDiego
+ep2 = "bbcfa486-90ec-11ed-959b-63a4785a3eec"    # local for NY
+# root_path = f"{ep1}:Halos/FoF"                # local for SD
+root_path = f"{ep1}:Halos"
 
 def ls(path):
     process = subprocess.Popen(shlex.split("globus ls " + path),
