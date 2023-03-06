@@ -63,41 +63,57 @@ def download_batch(local_batch_file):
 
 ###########################################################à
 
-files_da_scaricare = list()
+# files_da_scaricare = list()
 
-for root_dir_raw in ls(root_path):
-    print(root_dir_raw)
+# for root_dir_raw in ls(root_path):
+#     print(root_dir_raw)
 
-    if "latin" in root_dir_raw or "fiducial_" in root_dir_raw:
-        continue
+#     if "latin" in root_dir_raw or "fiducial_" in root_dir_raw:
+#         continue
 
-    root_dir = root_dir_raw.strip()
+#     root_dir = root_dir_raw.strip()
 
-    inner_path = f"{root_path}/{root_dir}"
-    for inner_dir in tqdm(ls(inner_path)):
-        try:
-            if int(inner_dir[:-1]) >= 500:
-                continue
-        except Exception:
-            pass
+#     inner_path = f"{root_path}/{root_dir}"
+#     for inner_dir in tqdm(ls(inner_path)):
+#         try:
+#             if int(inner_dir[:-1]) >= 500:
+#                 continue
+#         except Exception:
+#             pass
 
-        final_remote_path = f"{inner_path}{inner_dir}groups_002"
-        print(final_remote_path)
+#         final_remote_path = f"{inner_path}{inner_dir}groups_002"
+#         print(final_remote_path)
 
-        local_partial_path = ":".join(final_remote_path.split(":")[1:])
-        local_complete_path = f"/media/fuffolo97/HDD1/UNI/Tesi/{local_partial_path}"
+#         local_partial_path = ":".join(final_remote_path.split(":")[1:])
+#         local_complete_path = f"/media/fuffolo97/HDD1/UNI/Tesi/{local_partial_path}"
     
-        files_da_scaricare.append(f"--recursive {final_remote_path} {local_complete_path}")
-        # download(final_remote_path, "/media/fuffolo97/HDD1/UNI/Tesi")   # <- modify here your personal path
-#         # exit()
+#         files_da_scaricare.append(f"--recursive {final_remote_path} {local_complete_path}")
+#         # download(final_remote_path, "/media/fuffolo97/HDD1/UNI/Tesi")   # <- modify here your personal path
+# #         # exit()
 
 
-with open("sanita-mentale","w") as f:
-    for fpath in files_da_scaricare:
-        f.write(fpath + "\n")
+# with open("second-download-files.txt","w") as f:
+#     for fpath in files_da_scaricare:
+#         f.write(fpath + "\n")
 
 #     # break
 # with open("files-da-scaricare","w") as f:
 #     for fpath in files_da_scaricare:
 #         f.write(fpath + "\n")
-# download_batch("files-da-scaricare")
+
+download_batch("second-download-files.txt")
+
+#######################################################################################
+
+# CosmoToDownload = ['h_p','Ob2_p']
+# InFoldsToDownload = ['NCV_0_', 'NCV_1_']
+
+# with open("second-download-files.txt", "a") as f:
+#     for i in range(500):
+#         f.write("--recursive Halos/fiducial/" + str(i) + "/groups_002 /media/fuffolo97/HDD1/UNI/Tesi/Halos2/fiducial/" + str(i) + "/groups_002\n")
+    
+#     for i in CosmoToDownload:
+#         for j in InFoldsToDownload:
+#             for k in range(250):
+#                 a = "--recursive Halos/" + i + "/" + j + str(k) + "/groups_002 /media/fuffolo97/HDD1/UNI/Tesi/Halos2/" + i + "/" + j + str(k) + "/groups_002\n"
+#                 f.write(a)

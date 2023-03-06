@@ -1,0 +1,335 @@
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      409
+request_id:       cYjkQpahW
+code:             ClientError.Conflict.TooManyPendingJobs
+message:          This user has too many pending jobs!
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      409
+request_id:       AZnfHSZEa
+code:             ClientError.Conflict.TooManyPendingJobs
+message:          This user has too many pending jobs!
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       EnjnLBc2M
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-1.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/DC_m/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       dQTCEtBmr
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-2.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/DC_p/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       UeEn8Tqgp
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-2.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/Mnu_p/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       AIr0uPsDo
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-2.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/Mnu_pp/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       Ms0uurR8z
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-0.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/Mnu_ppp/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       TIe5WU2JY
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-0.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/Ob2_m/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       Yxrmd7oSC
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-1.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/DC_m/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       w4v6jUeZr
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-2.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/DC_p/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       8BRl7Tk2W
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-0.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/Mnu_p/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       ZPMZyoD52
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-2.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/Mnu_pp/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       a4JC9UanD
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-0.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/Mnu_ppp/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       1ytGnD1oP
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-0.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/Ob2_m/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       xz9UoUPUm
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-1.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/Ob2_p/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       FMyyqBSAS
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-0.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/Ob_m/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       7E5SBpXrb
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-2.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/Ob_p/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       lQrIrKrwP
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-1.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/Om_m/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       e9gMfM4JR
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-0.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/Om_p/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       UkMCLwHyr
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-0.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/fiducial/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       b2ElFtX5T
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-1.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/h_m/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       RkTUm4Z0H
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-0.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/h_p/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       792kfvzDg
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-0.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/ns_m/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       xwzNIZmqg
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-0.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/ns_p/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       WIEYSqGwt
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-0.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/s8_m/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       dcYXFoFPK
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-2.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/s8_p/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  
+Globus CLI Error: A Transfer API Error Occurred.
+HTTP status:      502
+request_id:       FX6CB1DF8
+code:             ExternalError.DirListingFailed.Timeout
+message:
+                  Command Failed: Error (list)
+                  Endpoint: Quijote_simulations (f4863854-3819-11eb-b171-0ee0d5d9299f)
+                  Server: globus-gridftp-2.sdsc-gridftp.flatironinstitute.org:2811
+                  Command: MLSC ~/Halos/w_m/
+                  Message: The operation timed out
+                  ---
+                  Details: Timeout waiting for response
+                  

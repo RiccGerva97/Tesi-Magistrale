@@ -244,7 +244,9 @@ def HaloWST_one_f(filename, snapdir, snapnum=2, N_hgrid=128, hlength=1000, N_WST
         print(f"Ended in {time.time() - start} seconds ({i}°)")
 
 def CALCULUS(togheter = True, N_hgrid = 128, N_WSTgrid = 128, n_realiz = 350, Ff = ['fiducial']):
-    
+    """Evaluates WST coefficients and print them in one/two files (this is an option) for given foldees
+    using `HaloWST_one_f_MASL`
+    """
     # library fpr progress bar
     # use 'from tqdm.auto import tqdm' for both terminal and notebook 
     from tqdm import tqdm
@@ -263,8 +265,6 @@ def CALCULUS(togheter = True, N_hgrid = 128, N_WSTgrid = 128, n_realiz = 350, Ff
 
     if togheter == False:
         # define output name files with coefficients 
-        # Fif = '_first_order.wst'
-        # Sef = '_second_order.wst'
         Fif = '_first_order_'+str(N_hgrid)+"_"+str(N_hgrid)+"_"+str(N_hgrid)+'.wst'
         Sef = '_second_order_'+str(N_hgrid)+"_"+str(N_hgrid)+"_"+str(N_hgrid)+'.wst'
 
@@ -273,10 +273,8 @@ def CALCULUS(togheter = True, N_hgrid = 128, N_WSTgrid = 128, n_realiz = 350, Ff
         for folder in tqdm(folders):
 
             # delete existing file, want a new one (not extending it)
-            if os.path.exists(folder+Fif):
-                os.remove(folder+Fif)
-            if os.path.exists(folder+Sef):
-                os.remove(folder+Sef)
+            if os.path.exists(folder+Fif): os.remove(folder+Fif)
+            if os.path.exists(folder+Sef): os.remove(folder+Sef)
             
             # loop over the different realizations
             for i in tqdm(range(n_realiz), leave=False):
@@ -288,8 +286,8 @@ def CALCULUS(togheter = True, N_hgrid = 128, N_WSTgrid = 128, n_realiz = 350, Ff
         for folder in tqdm(folders):
 
             # delete existing file, want a new one (not extending it)
-            if os.path.exists(folder+filename):
-                os.remove(folder+filename)
+            if os.path.exists(folder+filename): os.remove(folder+filename)
+            
             for i in tqdm(range(n_realiz), leave=False):
                 snapdir = root + folder +'/%d'%i
                 HaloWST_one_f_MASL(folder+filename, snapdir, N_hgrid = N_hgrid, N_WSTgrid = N_WSTgrid)

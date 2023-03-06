@@ -1,5 +1,11 @@
+import cython
+cimport cython
 import numpy as np
-from MyFunc.myDict import order_folders, COSMOPAR
+cimport numpy as np
+# from myDict import order_folders, COSMOPAR
+
+DTYPE = float
+ctypedef np.float_t DTYPE_t
 
 def Hartlap(mat, Nr = 350):
     """Calculates inverse matrix using Hartlap correction.
@@ -9,14 +15,27 @@ def Hartlap(mat, Nr = 350):
     """
     return (Nr-len(mat)-2)/(Nr-1)*np.linalg(mat)
 
-def JacobCosmPar(WSTc_0, WSTc_1, ComsP_0, CosmP_1):
+@cython.boundscheck(False)
+@cython.cdivision(True)
+@cython.wraparound(False)
+cdef JacobCosmPar(WSTc_0, WSTc_1, ComsP_0, CosmP_1):
     """Returns the Jacobian matrix of WST coefficients. Uses incremental ratio
     between WST coeff and cosmological parameters of two different cosmologies.
     """
     # here I give as input WST coeffs of a cosmology
+
+    i: cython.int
+    j: cython.int
+    m: cython.int
+    alpha: cython.int
+
     m = len(WSTc_0)         # observables lenght
     alpha = len(ComsP_0)    # parameters lenght
-    Jac = np.zeros((m, alpha))
+
+    # Jac: cython.float[m][alpha]
+    
+    cdef np.ndarray Jac = np.zeros([m, alpha])
+
     for i in range(m):
         for j in range(alpha):
             if np.abs(CosmP_1[j] - ComsP_0[j]) < 1e-10:

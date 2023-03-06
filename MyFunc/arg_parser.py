@@ -4,6 +4,9 @@ from myDict import boolean
 from CalcWST import CALCULUS
 
 def line_parser(argv):
+    """Function that parses the inputs given from command line when executing
+    `calc_WST_halos.py`
+    """
     try:
         opts, args = getopt.getopt(argv,"hvo:g:w:r:F:",["onefiles=","gridcells=","wstcells=","realization=","folders="])
     except getopt.GetoptError:
@@ -21,9 +24,9 @@ def line_parser(argv):
         if opt in '-h':
             print ('calc_WST_halo.py -o <one outfile> -g <cell density grid> -w <cell WST coeff> -r <realizations> -F <folder1 folder2 ...>//<ALL> -v <verbose opt>')
             sys.exit()
-# è giusto questo if o serve un altro "operatore logico"?
+        # è giusto questo if o serve un altro "operatore logico"?
         if opt in ("-v", "--verbose"):
-            togheter = input("Write results on one file? [True/False]" or True)
+            togheter = input("Write results on one file? [TRUE/False]" or True)
             N_hgrid = int(input("Number of cells per side of density matrix [128]: ") or "128")
             N_WSTgrid = int(input("Number of cells per side of WST coefficients evaluation  [128]: ") or "128")
             n_realiz = int(input("Number of cells per side of WST coefficients evaluation  [350]: ") or "350")

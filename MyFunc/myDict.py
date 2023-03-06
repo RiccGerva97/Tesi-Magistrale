@@ -21,8 +21,12 @@ order_folders = {
 
 boolean = {
     'True' : 1,
-    'False' : 0
-}
+    'TRUE' : 1,
+    'true' : 1,
+    'False' : 0,
+    'FALSE' : 0,
+    'false' : 0
+ }
 
 COSMOPAR = {
     """dictionary to assegnate to a cosmology its parameters
