@@ -19,8 +19,6 @@ z_dict = {4:0.0, 3:0.5, 2:1.0, 1:2.0, 0:3.0}
 redshift = z_dict[snapnum]
 
 # define output name files with coefficients 
-# Fif = '_first_order.wst'
-# Sef = '_second_order.wst'
 Fif = '_first_order_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(n_realiz)+'.wst'
 Sef = '_second_order_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(n_realiz)+'.wst'
 filename = '_coefficients_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(n_realiz)+'.wst'
@@ -64,7 +62,7 @@ if togheter == True:
 
 
 else:
-    coeffs_tot = []         # array containing 
+    coeffs_tot = []         # array containing arrays of WST coeffs per cosmology
     sigma_coeffs = []
     Cov = []
     for folder in folders:
@@ -103,12 +101,24 @@ else:
 # tra le cosmologie che hanno il parametro cosmologico in considerazione una
 # aumentato e l'altra diminuito (sempre rispetto alla fiduciale)
 
+# NOVITA': i ricercatori Quijote per calcolare le derivate di un parametro fanno:
+# d/dx S_i = (S_i(x+dx)-S_i(x-dx)) / 2dx
+# quindi poteri pensare di valutare le deirvate facendo le differenze tra 
+# cosmologie _p e _m (dei coefficienti e dei parametri)
+# Conviene calcolare già gli step o utilizzare le percentuali come da paper?
+# NOTA: essendoci 4 variazioni sulla densità di barioni, considero solo le coppie 
+# (+, -) e (++, --) o posso/conviene calcolare anche le altre (aggiustanto la formula),
+# che sono (++, -), (+, --), (++, +), (-, --)?
+# Sono sensate solo quelle che hanno i termini fiduciali all'interno? E basterebbe
+# aggiustare o bisogna aggingere dei possibili pesi?
+
 from MyFunc.Fisher import JacobCosmPar, Hartlap
 
 derivates = np.zeros((len(order_folders), len(coeffs_tot[0]), len(coeffs_cosm[0])))
 
 for i in range(len(order_folders)):
     if i != order_folders['fiducial']:
+        # primo indice sulle cosmologie, il secondo suicoefficienti
         derivates[i] = JacobCosmPar(coeffs_tot[order_folders['fiducial']], coeffs_tot[i], coeffs_cosm[order_folders['fiducial']], coeffs_cosm[i])
     else:
         derivates[i] = 0
