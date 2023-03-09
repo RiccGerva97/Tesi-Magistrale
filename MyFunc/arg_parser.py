@@ -1,7 +1,10 @@
 import sys
 import getopt
-from myDict import boolean
+
+import sys
+sys.path.insert(1, './MyFunc')
 from CalcWST import CALCULUS
+from myDict import boolean
 
 def line_parser(argv):
     """Function that parses the inputs given from command line when executing

@@ -27,7 +27,8 @@ folders = ['fiducial', 'h_m', 'h_p', 'Mnu_p', 'Mnu_pp' ,'Mnu_ppp', \
             'ns_m', 'ns_p', 'Ob_m', 'Ob_p', 'Ob2_m', 'Ob2_p', \
             'Om_m', 'Om_p', 's8_m', 's8_p', 'w_m', 'w_p']
 
-if togheter == True:
+# if togheter == True:
+if togheter == False:
     first_order_coeffs = 0
     second_order_coeffs = []
 
@@ -120,7 +121,7 @@ else:
 # parametri iniziali delle simulazioni.
 # Il sig. Navarro ci informa che possono essere utulizzate tutte e 1000 solo per il
 # computo delle derivate, mentre per quello della matrice di covarianza solo quelle standard.
-#
+
 # Ora ho due strade:
 # a) usare 350/500 standard e basta;
 # b) usare standard e fisse (/accoppiate) -> quante? Perché l'importante è usarne >= 350 standard
@@ -128,11 +129,11 @@ else:
 # Priblema:
 # 1) "Ob_" ha solo realizzazioni non standard -> posso supperire con "Ob2_"
 # 2) "w_" ha solo realizzazioni standard
-# 
+
 # Come posso mettere insieme a), b) e 1), 2)?
 # La facile soluzione sarebbe calcolare il tutto solo con realizzazioni standard e non usare
 # le cosmologie varianti "Ob_".
-# 
+
 # SOLUZIONE PIU' ARTICOLATA
 # Si potrebbe invece pensare di calcolare la matrice di covarianza con le realizzazioni standard,
 # le derivate anche con quelle fisse.
