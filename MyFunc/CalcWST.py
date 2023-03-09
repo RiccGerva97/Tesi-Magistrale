@@ -51,9 +51,12 @@ def HaloWST_one_f_MASL(filename, snapdir, snapnum=2, N_hgrid=128, hlength=1000, 
 
     Sx = HarmonicScattering3D(J=j, L=l, shape=(N_WSTgrid, N_WSTgrid, N_WSTgrid), sigma_0=0.8, integral_powers=[0.8]).scattering(torch.from_numpy(dens))
 
-    file = open(filename, 'ab')
-    pickle.dump(torch.flatten(Sx,start_dim=0).cpu().detach().numpy(), file)
-    file.close()
+    # file = open(filename, 'ab')
+    # pickle.dump(torch.flatten(Sx,start_dim=0).cpu().detach().numpy(), file)
+    # file.close()
+
+    with open('WST-files/'+filename, 'ab') as file:
+        pickle.dump(torch.flatten(Sx, start_dim=0).cpu().detach().numpy(), file)
     
     if i != -1:
         print(f"Ended in {time.time() - start} seconds ({i}°)")

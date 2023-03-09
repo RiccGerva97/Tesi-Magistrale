@@ -16,7 +16,7 @@ def line_parser(argv):
     if len(opts) == 0:
         return CALCULUS() # giusto?
         
-    N_hgrid, N_WSTgrid, n_realiz= '128', '128', '1'
+    N_hgrid, N_WSTgrid, n_realiz= '256', '256', '350'
     togheter = False
     folders = ['fiducial']
     
@@ -27,8 +27,8 @@ def line_parser(argv):
         # è giusto questo if o serve un altro "operatore logico"?
         if opt in ("-v", "--verbose"):
             togheter = input("Write results on one file? [TRUE/False]" or True)
-            N_hgrid = int(input("Number of cells per side of density matrix [128]: ") or "128")
-            N_WSTgrid = int(input("Number of cells per side of WST coefficients evaluation  [128]: ") or "128")
+            N_hgrid = int(input("Number of cells per side of density matrix [256]: ") or "256")
+            N_WSTgrid = int(input("Number of cells per side of WST coefficients evaluation  [256]: ") or "256")
             n_realiz = int(input("Number of cells per side of WST coefficients evaluation  [350]: ") or "350")
             f = input("Cosmologies to evaluate WST coefficients (separated by space, type ALL for all cosmologies): ") or "fiducial"
             if f == "ALL":

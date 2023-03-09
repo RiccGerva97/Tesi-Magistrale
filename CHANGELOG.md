@@ -1,15 +1,24 @@
 # CHANGELOG
 
+### 03/09
+- creata cartella per contenere i file con i coefficienti come risultato
+- modificato varie volte il file per scaricare da Globus e quello per controllare esistenza e integrità dei file
+
+</br>
+
 ### 02/24
 - modificato downloader per scaricare dal server di San Diego
 - aggiornato dizionario 'COSMOPAR'
 
+</br>
 
 ### 02/22
 - spostate le funzioni CALCULUS in CalcWST.py e line_parser in arg_parser.py
 - dizionario per associare nome cosmologia(/cartella) -> parametri
 - trovato ERRORE: dovevo passare a HarmonicScattering3D nel calcolodelle WST non la matrice densità ma sovradensità
 - PROBLEMA RISCONTRATO: i dati che stavo fin ora utilizzando non sembrano essere adatti ai nostri scopi!
+
+</br>
 
 ### 02/21
 - aggiunto dizionario delle cosmologie per iterare su queste e poterle associare a un valore numerico da 0 a 10 per i cicli for

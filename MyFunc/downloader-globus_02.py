@@ -101,7 +101,7 @@ def download_batch(local_batch_file):
 #     for fpath in files_da_scaricare:
 #         f.write(fpath + "\n")
 
-download_batch("second-download-files.txt")
+download_batch("third-download-files.txt")
 
 #######################################################################################
 
@@ -117,3 +117,11 @@ download_batch("second-download-files.txt")
 #             for k in range(250):
 #                 a = "--recursive Halos/" + i + "/" + j + str(k) + "/groups_002 /media/fuffolo97/HDD1/UNI/Tesi/Halos2/" + i + "/" + j + str(k) + "/groups_002\n"
 #                 f.write(a)
+
+# with open("third-download-files.txt", 'a') as f:
+#     for i in range(500):
+#         f.write("--recursive Halos/fiducial/" + str(500+i) + "/groups_002 /media/fuffolo97/HDD1/UNI/Tesi/Halos2/fiducial/" + str(500+i) + "/groups_002\n")
+#     for i in range(500):
+#         f.write(("--recursive Halos/h_p/" + str(i) + "/groups_002 /media/fuffolo97/HDD1/UNI/Tesi/Halos2/h_p/" + str(i) + "/groups_002\n"))
+#     for i in range(500):
+#         f.write(("--recursive Halos/Ob2_p/" + str(i) + "/groups_002 /media/fuffolo97/HDD1/UNI/Tesi/Halos2/Ob2_p/" + str(i) + "/groups_002\n"))

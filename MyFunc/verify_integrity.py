@@ -3,7 +3,7 @@ import os
 from tqdm import tqdm
 
 snapnum = 2
-root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/'
+root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos2/'
 
 ####################################################################################
 
@@ -23,9 +23,11 @@ root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/'
 
 ####################################################################################
 
-folders = ['fiducial', 'h_m', 'h_p', 'Mnu_p', 'Mnu_pp' ,'Mnu_ppp', \
-                    'ns_m', 'ns_p', 'Ob_m', 'Ob_p', 'Ob2_m', 'Ob2_p', 'Om_m', 'Om_p', \
-                        's8_m', 's8_p', 'w_m', 'w_p']
+# folders = ['fiducial', 'h_m', 'h_p', 'Mnu_p', 'Mnu_pp' ,'Mnu_ppp', \
+#                     'ns_m', 'ns_p', 'Ob_m', 'Ob_p', 'Ob2_m', 'Ob2_p', 'Om_m', 'Om_p', \
+#                         's8_m', 's8_p', 'w_m', 'w_p']
+
+folders = ['fiducial', 'h_p', 'Ob2_p']
 
 # DC_, Ob_, w_ non hanno le cartelle NCV_
 # Ob_ hanno solo cartelle NCV_
@@ -34,7 +36,7 @@ for folder in tqdm(folders):
     try:
         if folder == "fiducial":
             if os.path.isdir(str(root+folder)) == True:
-                for i in range(1000):
+                for i in tqdm(range(1000)):
                     snapdir = root + folder +'/%d'%i
                     if os.path.isdir(snapdir) == True:
                         pass

@@ -20,8 +20,8 @@ Avviare lo script da line di comando; ci sono le seguenti opzioni:
 - ```$ python calc_WST_halos.py``` avvia il programma con i parametri di default (vedi sotto per i valori di default);
 - ```$ python calc_WST_halos.py -h``` dà informazioni per come passare gli argomenti opzionali modificabili:
     * ```-o <one file>```: scrive i risultati su un file se `True`, su due se `False` (default. True);
-    * ```-g <cell density grid>```: modifica il numero di celle per lato della matrice densità (default: 128);
-    * ```-w <cell WST coeff>```: modifica il numero di celle per lato della griglia per il calcolo dei coefficienti di scattering (default: 128);
+    * ```-g <cell density grid>```: modifica il numero di celle per lato della matrice densità (default: 256);
+    * ```-w <cell WST coeff>```: modifica il numero di celle per lato della griglia per il calcolo dei coefficienti di scattering (default: 256);
     * ```-r <realizations>```: modifica il numero di realizzazoni sucui calcolare i coefficienti di scattering  (default: 350);
     * ```-F <folder1 folder2 ...>```: modifica le cosmologie su cui calcolare i coefficienti di scattering (default: fiducial);
     * ```-v <verbose opt>```: metodo esteso che chiede uno alla volta i valori precedenti, "Invio" dà il valore di default.

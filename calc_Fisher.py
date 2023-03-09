@@ -9,8 +9,8 @@ from MyFunc.myDict import order_folders
 # from CalcWST import HaloWST_f, HaloWST_one_f
 
 togheter = False
-N_hgrid = 128       # number of cells per dimension of halo distribution
-N_WSTgrid = 128     # number of cells per dimension of WST evaluation
+N_hgrid = 256       # number of cells per dimension of halo distribution
+N_WSTgrid = 256     # number of cells per dimension of WST evaluation
 n_realiz = 350      # number of realization used
 
 # define desired redshift
@@ -59,7 +59,6 @@ if togheter == True:
                     second_order_coeffs.append(pickle.load(Sf))
                 except EOFError:
                     break
-
 
 else:
     coeffs_tot = []         # array containing arrays of WST coeffs per cosmology
@@ -111,6 +110,37 @@ else:
 # che sono (++, -), (+, --), (++, +), (-, --)?
 # Sono sensate solo quelle che hanno i termini fiduciali all'interno? E basterebbe
 # aggiustare o bisogna aggingere dei possibili pesi?
+
+# PENSIERI OZIOSI
+# In quasi tutte le cosmologie ci sono tre tipologie di realizzazioni:
+# - standard -> 500
+# - fisse -> 250
+# - fisse accoppiate -> 250
+# cioè dipende come vengono generati (aka con quale distribuzione vengono calcolati) i
+# parametri iniziali delle simulazioni.
+# Il sig. Navarro ci informa che possono essere utulizzate tutte e 1000 solo per il
+# computo delle derivate, mentre per quello della matrice di covarianza solo quelle standard.
+#
+# Ora ho due strade:
+# a) usare 350/500 standard e basta;
+# b) usare standard e fisse (/accoppiate) -> quante? Perché l'importante è usarne >= 350 standard
+#     per avere una matrice di covar.sufficientemente bendefinita
+# Priblema:
+# 1) "Ob_" ha solo realizzazioni non standard -> posso supperire con "Ob2_"
+# 2) "w_" ha solo realizzazioni standard
+# 
+# Come posso mettere insieme a), b) e 1), 2)?
+# La facile soluzione sarebbe calcolare il tutto solo con realizzazioni standard e non usare
+# le cosmologie varianti "Ob_".
+# 
+# SOLUZIONE PIU' ARTICOLATA
+# Si potrebbe invece pensare di calcolare la matrice di covarianza con le realizzazioni standard,
+# le derivate anche con quelle fisse.
+# Bisogna però:
+# - pensare a come (e se si deve) riportare che le derivare -> Fisher per cosmologie "w_"
+# hanno una precisione minore;
+# - come "unire" le derivate fatte su variazione di Omega_b (perché è quella con ++, +, -, --) 
+
 
 from MyFunc.Fisher import JacobCosmPar, Hartlap
 
