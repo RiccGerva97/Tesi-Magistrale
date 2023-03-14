@@ -27,7 +27,7 @@ Avviare lo script da line di comando; ci sono le seguenti opzioni:
     * ```-v <verbose opt>```: metodo esteso che chiede uno alla volta i valori precedenti, "Invio" dà il valore di default.
 
 ### Output
-I file di output contenti i coefficienti WST avranno la seguente struttura:
+I file di output contenti i coefficienti WST saranno contenuti in una cartella nella directory principale, chiamata `WST-files` e avranno la seguente struttura:
 
 'nome cosmologia' _ coefficients _ 'celle per lato della griglia' _ 'celle per lato per i coeff. WST' _ 'numero realizzazioni' . wst"
 

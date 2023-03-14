@@ -5,7 +5,7 @@ import os
 import pickle
 import sys
 #sys.path.insert(1, './MyFunc')
-from MyFunc.myDict import order_folders
+from MyFunc.myDict import order_folders, COSMOPAR, VarCosmoPar, fiducial_vals
 # from CalcWST import HaloWST_f, HaloWST_one_f
 
 togheter = False
@@ -24,8 +24,21 @@ Sef = '_second_order_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(n_realiz)+'.wst'
 filename = '_coefficients_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(n_realiz)+'.wst'
 
 folders = ['fiducial', 'h_m', 'h_p', 'Mnu_p', 'Mnu_pp' ,'Mnu_ppp', \
-            'ns_m', 'ns_p', 'Ob_m', 'Ob_p', 'Ob2_m', 'Ob2_p', \
-            'Om_m', 'Om_p', 's8_m', 's8_p', 'w_m', 'w_p']
+           'ns_m', 'ns_p', 'Ob_m', 'Ob_p', 'Ob2_m', 'Ob2_p', \
+           'Om_m', 'Om_p', 's8_m', 's8_p', 'w_m', 'w_p']
+
+# Ob_ cosmologies haven't standard realization
+# => only use to generate derivates
+# 
+# w_ cosmologies only have standard generalization
+# 
+# HARTLAP matrix:
+# use fiducial cosmology to evaluate it
+# 
+# FISHER matrix:
+# - use precedent Hartlap matrix
+# - use derivates calculated as:
+#   ( S(C_p)-S(C_m) ) / ( 2d*C_par)
 
 # if togheter == True:
 if togheter == False:
@@ -62,15 +75,16 @@ if togheter == False:
                     break
 
 else:
+    root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/'
     coeffs_tot = []         # array containing arrays of WST coeffs per cosmology
-    sigma_coeffs = []
+    # sigma_coeffs = []
     Cov = []
     for folder in folders:
         coeffs_cosm = []
-        sigma = []
-
+        # sigma = []
+        in_realizations = os.listdir(root+folder)
         # read all coefficients of all realizations per cosmology
-        for i in range(n_realiz):
+        for i in range(in_realizations):
             with open(folder+filename, 'rb') as Ff:
                 while True:
                     try:
@@ -80,7 +94,7 @@ else:
                     except EOFError:
                         break
         
-        sigma_coeffs[order_folders[folder]] = np.std(coeffs_cosm, axis=0)
+        #sigma_coeffs[order_folders[folder]] = np.std(coeffs_cosm, axis=0)
         coeffs_tot[order_folders[folder]] = np.average(coeffs_cosm, axis=0)
         Cov[order_folders[folder]] = np.cov(coeffs_tot)
 
@@ -146,6 +160,30 @@ else:
 from MyFunc.Fisher import JacobCosmPar, Hartlap
 
 derivates = np.zeros((len(order_folders), len(coeffs_tot[0]), len(coeffs_cosm[0])))
+
+n_seen = 0
+for i in folders:
+    n = order_folders[i]
+
+    if n == n_seen:
+        continue
+
+    if i == 'Mnu_p':
+        derivates[n] = (coeffs_tot[order_folders['Mnu_ppp']] - 12 * coeffs_tot[order_folders['Mnu_pp']] + 32 * coeffs_tot[n] - 12 * coeffs_tot[order_folders['fiducial']]) / (12 * COSMOPAR[i][5])
+        continue
+    if i == 'Mnu_pp':
+        derivates[n] = - (coeffs_tot[n] - 4 * coeffs_tot[order_folders['Mnu_p']] - 3 * coeffs_tot[order_folders['fiducial']]) / (COSMOPAR[i][5])
+        continue
+    if i == 'Mnu_ppp':
+        derivates[n] = (coeffs_tot[n] - coeffs_tot[order_folders['fiducial']]) / COSMOPAR[i][5]
+        continue
+    
+    if "Ob_" not in i:
+        derivates[n] = (coeffs_tot[n+1] - coeffs_tot[n]) / (2 * VarCosmoPar['d_'+i[:len(i)-2]] * fiducial_vals[i[:len(i)-2]] )
+    
+    
+
+    
 
 for i in range(len(order_folders)):
     if i != order_folders['fiducial']:
