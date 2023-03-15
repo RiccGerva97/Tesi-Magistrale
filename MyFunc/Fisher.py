@@ -9,21 +9,21 @@ def Hartlap(mat, Nr = 350):
     """
     return (Nr-len(mat)-2)/(Nr-1)*np.linalg(mat)
 
-# def JacobCosmPar(WSTc_0, WSTc_1, ComsP_0, CosmP_1):
-#     """Returns the Jacobian matrix of WST coefficients. Uses incremental ratio
-#     between WST coeff and cosmological parameters of two different cosmologies.
-#     """
-#     # here I give as input WST coeffs of a cosmology
-#     m = len(WSTc_0)         # observables lenght
-#     alpha = len(ComsP_0)    # parameters lenght
-#     Jac = np.zeros((m, alpha))
-#     for i in range(m):
-#         for j in range(alpha):
-#             if np.abs(CosmP_1[j] - ComsP_0[j]) < 1e-10:
-#                 Jac[i][j] = (WSTc_1[i]-WSTc_0[i]) / (CosmP_1[j]-ComsP_0[j])
-#             else:
-#                 Jac[i][j] = 0
-#     return Jac
+def JacobCosmPar(WSTc_0, WSTc_1, ComsP_0, CosmP_1):
+    """Returns the Jacobian matrix of WST coefficients. Uses incremental ratio
+    between WST coeff and cosmological parameters of two different cosmologies.
+    """
+    # here I give as input WST coeffs of a cosmology
+    m = len(WSTc_0)         # observables lenght
+    alpha = len(ComsP_0)    # parameters lenght
+    Jac = np.zeros((m, alpha))
+    for i in range(m):
+        for j in range(alpha):
+            if np.abs(CosmP_1[j] - ComsP_0[j]) < 1e-10:
+                Jac[i][j] = (WSTc_1[i]-WSTc_0[i]) / (CosmP_1[j]-ComsP_0[j])
+            else:
+                Jac[i][j] = 0
+    return Jac
 
 
 def Fisher(WSTc_0, WSTc_1, ComsP_0, CosmP_1, Nr = 350):

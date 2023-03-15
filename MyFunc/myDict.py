@@ -19,6 +19,17 @@ order_folders = {
     'w_p'       : 17
 }
 
+order_dimension = {
+    'Om'  : 0,
+    'Ob'  : 1,
+    'Ob2' : 1,
+    'h'   : 2,
+    'ns'  : 3,
+    's8'  : 4,
+    'w'   : 5,
+    'Mnu' : 6
+}
+
 boolean = {
     'True' : 1,
     'TRUE' : 1,
@@ -31,7 +42,7 @@ boolean = {
 COSMOPAR = {
     """dictionary to assegnate to a cosmology its parameters
     Ordered pairing cosmologies and the first one in with _m, the second one _p
-                    | Om_m | Om_b |   h   |  n_s  | s_8 | Mnu | w |
+                    | Om   | Ob   |   h   |  n_s  | s_8 | Mnu | w |
     """
 
     # 'DC_m' :        [0.3175, 0.049, 0.6711, 0.9624, 0.834, 0, -1],
@@ -67,18 +78,22 @@ COSMOPAR = {
     'w_p' :         [0.3175, 0.049, 0.6711, 0.9624, 0.834, 0, -1.05]
 }
 
+"""Values of deviations from fiducial cosmological parameters.
+"""
 VarCosmoPar = {
-    'd_h'  : 0.04,
-    'd_ns' : 0.04,
-    'd_Ob' : 0.002,
-    'd_Ob2': 0.004 - 0.047,
-    'd_Om' : 0.02,
-    'd_s8' : 0.03,
-    'd_w'  : -0.1
+    'd_h'  : 0.02,
+    'd_ns' : 0.02,
+    'd_Ob' : 0.001,
+    'd_Ob2': 0.002,
+    'd_Om' : 0.01,
+    'd_s8' : 0.015,
+    'd_w'  : -0.05
 }
 
+"""Values of fiducial cosmological parameters.
+"""
 fiducial_vals = {
-    'Om'  : 0.3175,
+    'Ob'  : 0.3175,
     'Om'  : 0.049,
     'h'   : 0.6711,
     'n_s' : 0.9624,
