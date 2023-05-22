@@ -3,7 +3,6 @@ import getopt
 from tqdm import tqdm
 import os
 import pickle
-
 import sys
 sys.path.insert(1, './MyFunc')
 from MyFunc.myDict import order_folders, order_dimension, COSMOPAR, VarCosmoPar, fiducial_vals
@@ -11,17 +10,12 @@ from MyFunc.name_parser import info_name
 # from CalcWST import HaloWST_f, HaloWST_one_f
 
 
-# togheter = True
-# print(sys.argv[1:])
-# info = info_name(sys.argv[1:])
-# N_hgrid = info[0]       # number of cells per dimension of halo distribution
-# N_WSTgrid = info[1]     # number of cells per dimension of WST evaluation
-# n_realiz = info[2]      # number of realization used
-
-N_hgrid = 30        # number of cells per dimension of halo distribution
-N_WSTgrid = 30      # number of cells per dimension of WST evaluation
-n_realiz = 1000     # number of realization used
 togheter = True
+# info = info_name(sys.argv[1:])
+info = info_name("fiducial_coefficients_30_30_1000.wst")
+N_hgrid = info[0]       # number of cells per dimension of halo distribution
+N_WSTgrid = info[1]     # number of cells per dimension of WST evaluation
+n_realiz = info[2]      # number of realization used
 
 # define desired redshift
 snapnum = 2
@@ -34,9 +28,6 @@ Sef = '_second_order_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(n_realiz)+'.wst'
 filename = '_coefficients_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(n_realiz)+'.wst'
 
 folders = ['fiducial', 'h_m', 'h_p', 'Mnu_p', 'Mnu_pp' ,'Mnu_ppp', \
-           'ns_m', 'ns_p', 'Ob_m', 'Ob_p', 'Ob2_m', 'Ob2_p', \
-           'Om_m', 'Om_p', 's8_m', 's8_p', 'w_m', 'w_p']
-cosmologies = ['fiducial', 'h_m', 'h_p', 'Mnu_p', 'Mnu_pp' ,'Mnu_ppp', \
            'ns_m', 'ns_p', 'Ob_m', 'Ob_p', 'Ob2_m', 'Ob2_p', \
            'Om_m', 'Om_p', 's8_m', 's8_p', 'w_m', 'w_p']
 
@@ -54,8 +45,6 @@ cosmologies = ['fiducial', 'h_m', 'h_p', 'Mnu_p', 'Mnu_pp' ,'Mnu_ppp', \
 #   ( S(C_p)-S(C_m) ) / ( 2d*C_par)
 
 # if togheter == True:
-
-fiducial_coeffs = []
 
 if togheter == False:
     first_order_coeffs = 0
@@ -91,42 +80,16 @@ if togheter == False:
                     break
 
 else:
-    # root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/'
-    # coeffs_tot = []         # array containing arrays of WST coeffs per cosmology
-    # # sigma_coeffs = []
-    # Cov = []
-    # for folder in folders:
-    #     coeffs_cosm = []
-    #     # sigma = []
-    #     in_realizations = os.listdir(root+folder)
-    #     # read all coefficients of all realizations per cosmology
-    #     for i in range(len(in_realizations)):
-    #         with open(in_realizations[i], 'rb') as Ff:
-    #         # with open(folder+filename, 'rb') as Ff:
-    #             while True:
-    #                 try:
-    #                     # create matrix whose first index refers to the realization
-    #                     # the second to the i-th coefficient
-    #                     coeffs_cosm[i] = pickle.load(Ff)
-    #                 except EOFError:
-    #                     break
-        
-    #     #sigma_coeffs[order_folders[folder]] = np.std(coeffs_cosm, axis=0)
-    #     coeffs_tot[order_folders[folder]] = np.average(coeffs_cosm, axis=0)
-        
-    #     # CONTROLLA
-    #     if 'Ob_' not in folder:
-    #         Cov[order_folders[folder]] = np.cov(coeffs_tot[0:500])
-
-
-    # root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/'
-    root = './WST-files-easy'
+    root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/'
+    root2 = './WST-files-easy/'
     coeffs_tot = []         # array containing arrays of WST coeffs per cosmology
-
-    for name_file in cosmologies:
+    # sigma_coeffs = []
+    Cov = []
+    for folder in folders:
         coeffs_cosm = []
-        in_realizations = os.listdir(root)
-
+        # sigma = []
+        # in_realizations = os.listdir(root+folder)
+        in_realizations = os.listdir(root2)
         # read all coefficients of all realizations per cosmology
         for i in range(len(in_realizations)):
             with open(in_realizations[i], 'rb') as Ff:
@@ -136,11 +99,15 @@ else:
                         # create matrix whose first index refers to the realization
                         # the second to the i-th coefficient
                         coeffs_cosm[i] = pickle.load(Ff)
-                        if "fiducial" in name_file:
-                            fiducial_coeffs[i] = coeffs_cosm[i]
                     except EOFError:
                         break
-        coeffs_tot[order_folders[name_file]] = np.average(coeffs_cosm, axis=0)
+        
+        #sigma_coeffs[order_folders[folder]] = np.std(coeffs_cosm, axis=0)
+        coeffs_tot[order_folders[folder]] = np.average(coeffs_cosm, axis=0)
+        
+        # CONTROLLA
+        if 'Ob_' not in folder:
+            Cov[order_folders[folder]] = np.cov(coeffs_tot[0:500])
 
 # VEDI `Pensieri_oziosi.md` 
 

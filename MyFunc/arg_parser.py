@@ -19,7 +19,7 @@ def line_parser(argv):
     if len(opts) == 0:
         return CALCULUS() # giusto?
         
-    N_hgrid, N_WSTgrid, n_realiz= '256', '256', '-1'
+    N_hgrid, N_WSTgrid, n_realiz= '256', '256', '350'
     togheter = "True"
     folders = ['fiducial']
     
