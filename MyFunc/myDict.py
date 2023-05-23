@@ -7,21 +7,18 @@ order_folders = {
     'Mnu_ppp'   : 5,
     'ns_m'      : 6,
     'ns_p'      : 7,
-    'Ob_m'      : 8,
-    'Ob_p'      : 9,
-    'Ob2_m'     : 10,
-    'Ob2_p'     : 11,
-    'Om_m'      : 12,
-    'Om_p'      : 13,
-    's8_m'      : 14,
-    's8_p'      : 15,
-    'w_m'       : 16,
-    'w_p'       : 17
+    'Ob2_m'     : 8,
+    'Ob2_p'     : 9,
+    'Om_m'      : 10,
+    'Om_p'      : 11,
+    's8_m'      : 12,
+    's8_p'      : 13,
+    'w_m'       : 14,
+    'w_p'       : 15
 }
 
 order_dimension = {
     'Om'  : 0,
-    'Ob'  : 1,
     'Ob2' : 1,
     'h'   : 2,
     'ns'  : 3,
@@ -40,16 +37,7 @@ boolean = {
  }
 
 COSMOPAR = {
-    """dictionary to assegnate to a cosmology its parameters
-    Ordered pairing cosmologies and the first one in with _m, the second one _p
-                    | Om   | Ob   |   h   |  n_s  | s_8 | Mnu | w |
-    """
-
-    # 'DC_m' :        [0.3175, 0.049, 0.6711, 0.9624, 0.834, 0, -1],
-    # 'DC_p' :        [0.3175, 0.049, 0.6711, 0.9624, 0.834, 0, -1],
-    # 'fiducial_HR' : [],
-    # 'fiducial_LR' : [],
-    # 'fiducial_ZA' : [],
+#                   | Om   | Ob   |   h   |  n_s  | s_8 | Mnu | w |
 
     'fiducial' :    [0.3175, 0.049, 0.6711, 0.9624, 0.834, 0, -1],
     
@@ -77,9 +65,11 @@ COSMOPAR = {
     'w_m' :         [0.3175, 0.049, 0.6711, 0.9624, 0.834, 0, -0.95],
     'w_p' :         [0.3175, 0.049, 0.6711, 0.9624, 0.834, 0, -1.05]
 }
-
-"""Values of deviations from fiducial cosmological parameters.
 """
+Dictionary to assegnate to a cosmology its parameters
+Ordered pairing cosmologies and the first one in with _m, the second one _p
+"""
+
 VarCosmoPar = {
     'd_h'  : 0.02,
     'd_ns' : 0.02,
@@ -89,9 +79,9 @@ VarCosmoPar = {
     'd_s8' : 0.015,
     'd_w'  : -0.05
 }
-
-"""Values of fiducial cosmological parameters.
+"""Values of deviations from fiducial cosmological parameters.
 """
+
 fiducial_vals = {
     'Ob'  : 0.3175,
     'Om'  : 0.049,
@@ -101,3 +91,5 @@ fiducial_vals = {
     'Mnu' : 0,
     'w'   : -1
 }
+"""Values of fiducial cosmological parameters.
+"""
