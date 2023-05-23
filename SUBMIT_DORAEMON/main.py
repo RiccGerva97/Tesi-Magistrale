@@ -49,9 +49,11 @@ def HaloWST_one_f_MASL(filename, snapdir, snapnum=2, N_hgrid=256, hlength=1000, 
         pickle.dump(torch.flatten(Sx, start_dim=0).cpu().detach().numpy(), file)
 
 
-def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = ['fiducial', 'h_m', 'h_p', 'Mnu_p', 'Mnu_pp' ,'Mnu_ppp', \
-                                                                                   'ns_m', 'ns_p', 'Ob_m', 'Ob_p', 'Ob2_m', 'Ob2_p', 'Om_m', 'Om_p', \
-                                                                                   's8_m', 's8_p', 'w_m', 'w_p']):
+def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = ['fiducial', 'h_m', 'h_p',\
+                                                                  'Mnu_p', 'Mnu_pp' ,'Mnu_ppp', \
+                                                                  'ns_m', 'ns_p', 'Ob2_m', 'Ob2_p',\
+                                                                  'Om_m', 'Om_p', 's8_m', 's8_p',\
+                                                                  'w_m', 'w_p']):
     """Evaluates WST coefficients and print them in one/two files (this is an option) for given folders
     using `HaloWST_one_f_MASL`
     """
@@ -79,15 +81,14 @@ def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = ['fiducial', 'h
 
         filename = '_coefficients_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(num)+'.wst'
 
-        # delete existing file, want a new one (not extending it)
-        if os.path.exists('../WST-files/'+folder+filename): os.remove(folder+filename)
+        # # delete existing file, want a new one (not extending it)
+        # if os.path.exists('../WST-files/'+folder+filename): os.remove(folder+filename)
         
         for i in in_realizations:
-            # snapdir = root + folder +'/%d'%i
             snapdir = root + folder + '/' + i
             HaloWST_one_f_MASL(folder+filename, snapdir, N_hgrid = N_hgrid, N_WSTgrid = N_WSTgrid)
 
 if __name__ == "__main__":
     n = sys.argv[1]
-    names = n.split('_+', str)[-3:]
+    names = n.split(' ', str)[-3:]
     CALCULUS(N_hgrid=256, N_WSTgrid=256, n_realiz=350, Ff = names)

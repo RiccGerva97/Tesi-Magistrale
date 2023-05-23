@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH -p squire #partition (queue)
-#SBATCH -N 1 #number of nodes
+#SBATCH -N6 #number of nodes
 #SBATCH -n 1 #number of cores
 ##SBATCH -w node1
 ##SBATCH --exclusive
@@ -19,7 +19,7 @@
 # mail alert at start, end and abortion of execution
 ##SBATCH --mail-type=ALL
 # send mail to this address
-##SBATCH --mail-user=sofia.chiarenza@studenti.unimi.it
+##SBATCH --mail-user=riccardo.gervsoni@studenti.unimi.it
 
 ##export OMP_NUM_THREADS=12
 
@@ -28,6 +28,10 @@ echo "SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
 
 # Name of the files
 xFILE="calc_WST_halos.py"
+
+module load anaconda/3
+source activate base
+# conda activate venv
 
 # Job submission
 cd $SLURM_SUBMIT_DIR
