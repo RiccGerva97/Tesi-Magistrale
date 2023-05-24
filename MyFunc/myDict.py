@@ -19,6 +19,7 @@ order_folders = {
 
 order_dimension = {
     'Om'  : 0,
+    'Ob'  : 1,
     'Ob2' : 1,
     'h'   : 2,
     'ns'  : 3,
@@ -84,10 +85,13 @@ VarCosmoPar = {
 
 fiducial_vals = {
     'Ob'  : 0.3175,
+    'Ob2'  : 0.3175,
     'Om'  : 0.049,
     'h'   : 0.6711,
     'n_s' : 0.9624,
+    'ns'  : 0.9624,
     's_8' : 0.834,
+    's8'  : 0.834,
     'Mnu' : 0,
     'w'   : -1
 }

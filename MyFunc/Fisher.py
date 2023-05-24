@@ -1,13 +1,54 @@
 import numpy as np
 from MyFunc.myDict import order_folders, COSMOPAR
 
+def correlation_matrix(m):
+    """Calculates the correlation matrix of matrix m_ij
+    """
+    avg = np.average(m, axis=0)
+    dim = len(avg)
+    assert dim == 75
+    # realiz = len(m[0])
+
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # VARIATION
+    sigma = []
+    for i in range(dim):
+        sigma.append(np.sum((avg[i] - m[i])**2))
+    sigma = np.sqrt(sigma)
+
+    # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # # COVARIANCE MATRIX
+    # c = np.zeros((dim, dim))
+    # for i in range(dim):
+    #     for j in range(dim):
+    #         c[i, j] = np.sum((avg[i] - m[i])*(avg[j] - m[j]))
+    # assert np.shape(c) == (75, 75)
+
+    # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # # CORRELATION MATRIX
+    # CORR = np.zeros((dim, dim))
+    # for i in range(dim):
+    #     for j in range(dim):
+    #         CORR[i, j] = c[i, j] / (sigma[i] * sigma[j])
+
+    # SHORTER WAY
+    #
+    CORR = np.zeros((dim, dim))
+    for i in range(dim):
+        for j in range(dim):
+            CORR[i, j] = np.sum((avg[i] - m[i])*(avg[j] - m[j])) / (sigma[i] * sigma[j])
+    #
+    assert np.shape(CORR) == (75, 75)
+    
+    return CORR
+
 def Hartlap(mat, Nr = 350):
     """Calculates inverse matrix using Hartlap correction.
     Arguments:
     - `mat`: input matrix to invert
     - `Nr`: nuber of realization used o calculated the matrix
     """
-    return (Nr-len(mat)-2)/(Nr-1)*np.linalg(mat)
+    return (Nr-len(mat)-2)/(Nr-1)*np.linalg.inv(mat)
 
 def JacobCosmPar(WSTc_0, WSTc_1, ComsP_0, CosmP_1):
     """Returns the Jacobian matrix of WST coefficients. Uses incremental ratio
@@ -67,4 +108,3 @@ class CovM:
     def __init__(self, WSTc_0, WSTc_1, ComsP_0, CosmP_1, Nr = 350):
         self.InvMat = Fisher(WSTc_0, WSTc_1, ComsP_0, CosmP_1, Nr = 350)
         self.DiagIM = np.diag(self.InvMat)
-
