@@ -92,5 +92,5 @@ Le doande che devo fare:
 
 Per accedere a Doraemon:
 
-- ssh -XY `riccardo@doraemon.fisica.unimi.it`
+- ssh -XY 'riccardo@doraemon.fisica.unimi.it'
 - pswd: 147asd369

@@ -123,7 +123,7 @@ for i in folders:
         derivates[order_dimension[coms]] = (coeffs_tot[n+1] - coeffs_tot[n]) / (2 * VarCosmoPar['d_'+coms] * fiducial_vals[coms] )
         n_seen += 1
 
-print(coeffs_tot[order_folders['Om_p']] == coeffs_tot[order_folders['Om_m']])
+print(coeffs_tot[order_folders['Om_p']])
 
 fiducial_coeffs_avg = np.average(fiducial_coeffs, axis = 0)
 
