@@ -49,11 +49,16 @@ def HaloWST_one_f_MASL(filename, snapdir, snapnum=2, N_hgrid=256, hlength=1000, 
         pickle.dump(torch.flatten(Sx, start_dim=0).cpu().detach().numpy(), file)
 
 
+# def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = ['fiducial', 'h_m', 'h_p',\
+#                                                                   'Mnu_p', 'Mnu_pp' ,'Mnu_ppp', \
+#                                                                   'ns_m', 'ns_p', 'Ob2_m', 'Ob2_p',\
+#                                                                   'Om_m', 'Om_p', 's8_m', 's8_p',\
+#                                                                   'w_m', 'w_p']):
 def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = ['fiducial', 'h_m', 'h_p',\
                                                                   'Mnu_p', 'Mnu_pp' ,'Mnu_ppp', \
                                                                   'ns_m', 'ns_p', 'Ob2_m', 'Ob2_p',\
-                                                                  'Om_m', 'Om_p', 's8_m', 's8_p',\
-                                                                  'w_m', 'w_p']):
+                                                                  's8_m', 's8_p',\
+                                                                  'w_m', 'w_p', 'zeldovich']):
     """Evaluates WST coefficients and print them in one/two files (this is an option) for given folders
     using `HaloWST_one_f_MASL`
     """
@@ -66,6 +71,7 @@ def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = ['fiducial', 'h
     # define root path where to find hale catalogues
     # root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/FoF/'
     root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/'
+    # root = /workplace/riccardo/Halos/
 
     # choose cosmologies 
     folders = Ff

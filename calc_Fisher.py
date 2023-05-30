@@ -71,38 +71,54 @@ if togheter == False:
                     break
 
 else:
-    # root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/'
-    coeffs_tot = []       # array containing arrays of WST coeffs per cosmology
-    # print("\n    IN THIS ELSE:\n")
-    # CICLE over all the cosmologies
-    for name_file in cosmologies:
+    # # root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/'
+    # coeffs_tot = []       # array containing arrays of WST coeffs per cosmology
+    # # print("\n    IN THIS ELSE:\n")
+    # # CICLE over all the cosmologies
+    # for name_file in cosmologies:
+    #     coeffs_cosm = []
+    #     in_realizations = os.listdir(root)
+    #     print("in realizations:\n", in_realizations, "\n")
+    #     # print("\n", os.listdir("./"), "\n")
+    #     # READ all coefficients of all realizations per cosmology
+    #     for i in range(len(in_realizations)):
+    #         with open(root+"/"+in_realizations[i], 'rb') as Ff:
+    #             print("File name: ", Ff)
+    #             while True:
+    #                 try:
+    #                     # create matrix whose first index refers to the realization
+    #                     # the second to the i-th coefficient
+    #                     ## coeffs_cosm[i] = pickle.load(Ff)
+    #                     coeffs_cosm.append(pickle.load(Ff))
+    #                     if "fiducial" in name_file:
+    #                         ## fiducial_coeffs[i] = coeffs_cosm[i]
+    #                         fiducial_coeffs.append(coeffs_cosm[i])
+    #                 except EOFError:
+    #                     break
+    #     # USING average value per coefficient in cosmology
+    #     # print("    COEFF COSMO:\n", np.size(coeffs_cosm), "\n")
+    #     ## coeffs_tot[order_folders[name_file]] = np.average(coeffs_cosm, axis=0)
+    #     coeffs_tot.append( np.average(coeffs_cosm, axis=0) )
+    coeffs_tot = []
+    files_to_read = os.listdir(root)
+    # CICLE over cosmologies
+    for i in range(len(files_to_read)):
         coeffs_cosm = []
-        in_realizations = os.listdir(root)
-        # print("\n", os.listdir("./"), "\n")
-        # READ all coefficients of all realizations per cosmology
-        for i in range(len(in_realizations)):
-            with open(root+"/"+in_realizations[i], 'rb') as Ff:
-                while True:
-                    try:
-                        # create matrix whose first index refers to the realization
-                        # the second to the i-th coefficient
-                        ## coeffs_cosm[i] = pickle.load(Ff)
-                        coeffs_cosm.append(pickle.load(Ff))
-                        if "fiducial" in name_file:
-                            ## fiducial_coeffs[i] = coeffs_cosm[i]
-                            fiducial_coeffs.append(coeffs_cosm[i])
-                    except EOFError:
-                        break
-        # USING average value per coefficient in cosmology
-        # print("    COEFF COSMO:\n", np.size(coeffs_cosm), "\n")
-        ## coeffs_tot[order_folders[name_file]] = np.average(coeffs_cosm, axis=0)
+        # READ all the i-th file
+        with open(root + "/" + files_to_read[i], 'rb') as Ff:
+            assert cosmologies[i] in Ff
+            while True:
+                try:
+                    coeffs_cosm.append(pickle.load(Ff))
+                    if "fiducial" in files_to_read[i]: fiducial_coeffs.append(pickle.load(Ff))
+                except EOFError:
+                    break
+        # USING average  value per coefficient in cosmology
         coeffs_tot.append( np.average(coeffs_cosm, axis=0) )
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # FISHER MATRIX
 
-# derivates = np.zeros((len(order_dimension), len(coeffs_tot[0]), len(coeffs_cosm[0])))
 derivates = np.zeros((len(order_dimension), len(coeffs_tot[0])))
 n_seen = 0
 
@@ -120,34 +136,39 @@ for i in folders:
     elif i == 'Mnu_ppp': derivates[order_dimension['Mnu']] += (coeffs_tot[n] - coeffs_tot[order_folders['fiducial']]) / COSMOPAR[i][5]
     else:
         coms = i[:len(i)-2]
+        assert not (coeffs_tot[n+1] == coeffs_tot[n]).all(), "THE COEFFICIENTS ARE EQUAL BETWEEN COSMOLOGIES"
         derivates[order_dimension[coms]] = (coeffs_tot[n+1] - coeffs_tot[n]) / (2 * VarCosmoPar['d_'+coms] * fiducial_vals[coms] )
         n_seen += 1
-
-print(coeffs_tot[order_folders['Om_p']])
 
 fiducial_coeffs_avg = np.average(fiducial_coeffs, axis = 0)
 
 CovMat = np.ma.cov(fiducial_coeffs_avg)
-CovMat2 = correlation_matrix(fiducial_coeffs)
+CorrMat = correlation_matrix(fiducial_coeffs)
 
-print("\n", np.shape(fiducial_coeffs), "\n", np.shape(derivates), "\n", np.shape(fiducial_coeffs_avg),"\n", np.shape(CovMat2),"\n")
-
-# print("\n", CovMat2, "\n")
 # HARTLAP matrix from covariance matrix
-H = Hartlap(CovMat2, n_realiz)
+H = Hartlap(CorrMat, n_realiz)
 assert np.shape(H) == (75, 75)
-print("    ", np.shape(np.dot(H, np.transpose(derivates))))
+
 # FISHER matrix
 Fi = np.zeros((7,7))
 for a in range(7):
     for b in range(7):
         Fi[a, b] = np.sum(derivates[a] * H * derivates[b])
-print(derivates[5])
-# F = np.multiply(derivates*np.dot(H, np.transpose(derivates)))
 assert np.shape(Fi) == (7, 7)
+
+# CONSTRAINS
 import scipy as sp
 inverse = np.linalg.inv(Fi)
-constrains = (sp.linalg.eig(np.linalg.inv(Fi)))**0.5
+results = []
+for i in range(len(inverse)):
+    results.append(inverse[i, i])
 
-with open("results.txt", 'wb') as res:
-    pickle.dump(constrains)
+with open("results_no_diagonalizing.txt", 'wb') as res:
+    pickle.dump(results, res)
+
+constrains = (sp.linalg.eig(inverse))[0]
+constrains = constrains ** 0.5
+print("\nAAA", (constrains), "\n")
+
+with open("results_diagonalizing.txt", 'wb') as res:
+    pickle.dump(constrains, res)
