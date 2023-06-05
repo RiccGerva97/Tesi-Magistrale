@@ -4,6 +4,10 @@ import pickle
 import readfof
 import torch
 
+import sys
+sys.path.insert(1, './MyFunc')
+from MyFunc.name_parser import info_name, cosmo_parser
+
 from kymatio.torch import HarmonicScattering3D
 from kymatio.scattering3d.backend.torch_backend \
     import TorchBackend3D
@@ -96,5 +100,18 @@ def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = ['fiducial', 'h
 
 if __name__ == "__main__":
     n = sys.argv[1]
-    names = n.split(' ', str)[-3:]
-    CALCULUS(N_hgrid=256, N_WSTgrid=256, n_realiz=350, Ff = names)
+    # names = n.split(' ', str)[-3:]
+    name_list = []
+    with open("file_list_to_create.txt", 'rb') as file:
+        lines = file.readlines()
+
+    info = info_name(lines[0])
+    N_hgrid = info[0]
+    N_WSTgrid = info[1]
+    n_realiz = info[2]
+    
+    name_list = []
+    for i in range(len(lines)):
+        name_list.append(cosmo_parser(lines[i]))
+    
+    CALCULUS(N_hgrid=256, N_WSTgrid=256, n_realiz=350, Ff = name_list)

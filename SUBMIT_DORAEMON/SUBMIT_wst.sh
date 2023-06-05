@@ -11,7 +11,7 @@
 #SBATCH --job-name wst_patchy #job name
 #SBATCH --output=log/patchy_%A_%a.o #path file to store output
 #SBATCH --error=log/patchy_%A_%a.e #path file to store error messages
-#SBATCH --array=1-16
+#SBATCH --array=1-17
 
 ##SBATCH -o log/%x_%j.o #path file to store output
 ##SBATCH -e log/%x_%j.e #path file to store error messages
