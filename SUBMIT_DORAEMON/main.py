@@ -98,20 +98,22 @@ def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = ['fiducial', 'h
             snapdir = root + folder + '/' + i
             HaloWST_one_f_MASL(folder+filename, snapdir, N_hgrid = N_hgrid, N_WSTgrid = N_WSTgrid)
 
+
+lines = []
+with open("file_list_to_create.txt", 'rb') as file:
+    lines = file.readlines()
+
+info = info_name(lines[0])
+N_hgrid = info[0]
+N_WSTgrid = info[1]
+n_realiz = info[2]
+
+name_list = []
+for i in range(len(lines)):
+    name_list.append(cosmo_parser(lines[i]))
+
 if __name__ == "__main__":
     n = sys.argv[1]
-    # names = n.split(' ', str)[-3:]
-    name_list = []
-    with open("file_list_to_create.txt", 'rb') as file:
-        lines = file.readlines()
-
-    info = info_name(lines[0])
-    N_hgrid = info[0]
-    N_WSTgrid = info[1]
-    n_realiz = info[2]
+    n = int(n)
     
-    name_list = []
-    for i in range(len(lines)):
-        name_list.append(cosmo_parser(lines[i]))
-    
-    CALCULUS(N_hgrid=256, N_WSTgrid=256, n_realiz=350, Ff = name_list)
+    CALCULUS(N_hgrid=N_hgrid, N_WSTgrid=N_WSTgrid, n_realiz=n_realiz, Ff = name_list[n])
