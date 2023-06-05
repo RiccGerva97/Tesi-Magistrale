@@ -17,3 +17,13 @@ def info_name(name):
 # from MyFunc.name_parser import info_name
 # NAME = "fiducial_coefficients_30_50_1000.wst"
 # info_name(NAME)
+
+def cosmo_parser(name):
+    """Obtain cosmology from .wst file"""
+    info = name.split('_')
+    if info[0] == "fiducial":
+        return info[0]
+    elif info[0] == "zeldovich":
+        return info[0]
+    else:
+        return info[0] + "_" + info[1]

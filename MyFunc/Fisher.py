@@ -2,7 +2,8 @@ import numpy as np
 from MyFunc.myDict import order_folders, COSMOPAR
 
 def correlation_matrix(m):
-    """Calculates the correlation matrix of matrix m_ij
+    """Calculates the correlation matrix of matrix m_ij.
+    Tests if it's 75x75
     """
     avg = np.average(m, axis=0)
     dim = len(avg)
@@ -15,7 +16,19 @@ def correlation_matrix(m):
     for i in range(dim):
         sigma.append(np.sum((avg[i] - m[i])**2))
     sigma = np.sqrt(sigma)
-
+    
+    sigma_bis = []
+    for i in range(dim):
+        cum = 0
+        for j in range(len(m[i])):
+            cum += (avg[i] - m[i][j])**2
+        sigma_bis.append(cum)
+    sigma_bis = np.sqrt(sigma_bis)
+    # print("sigma:", np.shape(sigma), "\n", sigma)
+    # print("\nsigma_bis:", np.shape(sigma_bis), "\n", sigma_bis)
+    # print("\nDIFFERENCE:\n", np.where(np.abs(sigma - sigma_bis)>1e-2))
+    # assert not abs(sigma - sigma_bis).all() > 1e-2, "¶ ERROR: inconsistence in evaluating variance"
+            
     # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # # COVARIANCE MATRIX
     # c = np.zeros((dim, dim))
@@ -34,11 +47,22 @@ def correlation_matrix(m):
     # SHORTER WAY
     #
     CORR = np.zeros((dim, dim))
+
     for i in range(dim):
         for j in range(dim):
-            CORR[i, j] = np.sum((avg[i] - m[i])*(avg[j] - m[j])) / (sigma[i] * sigma[j])
-    #
-    assert np.shape(CORR) == (75, 75)
+            cum = 0
+            for k in range(len(m[i])):
+                cum += (avg[i] - m[i][k])*(avg[j] - m[j][k])
+            CORR[i, j] = cum  / (sigma_bis[i] * sigma_bis[j])
+
+
+    # for i in range(dim):
+    #     for j in range(dim):
+    #         CORR[i, j] = np.sum((avg[i] - m[i])*(avg[j] - m[j])) / (sigma_bis[i] * sigma_bis[j])
+    # #
+    assert np.shape(CORR) == (75, 75), "ERROR in evaluating correlation matrix"
+    if np.linalg.det(CORR) == 0:
+        print("¶ WARNING: correlation matrix is singular")
     
     return CORR
 

@@ -92,5 +92,22 @@ Le doande che devo fare:
 
 Per accedere a Doraemon:
 
-- ssh -XY 'riccardo@doraemon.fisica.unimi.it'
-- pswd: 147asd369
+- `ssh -XY 'riccardo@doraemon.fisica.unimi.it'`
+- pswd: la mia standard `;)`
+
+## Sul calcolo delle derivate: nuovo metodo
+
+coeffs_tot usa come indici l'ordine delle cartelle
+derivates deve avere uno specifico ordine: quello dei parametri cosmologici:
+prima quello che facevo era usare l'ordine delle cartelle e saltare l'indice 0 (corrispon-
+dente alla fiduciale) e 16 (new entry, zeldovich); ora semplicemente ho creato un dizionario
+che riscala togliendo queste due cosmologie.
+Posso effettuare un ciclo `for` semplicemente sui parametri cosmologici, andare a calcolare
+le derivate:
+
+- scelgo dove allocare in `derivates` col nuovo dizionario (evito magheggi strani e poco
+  chiari);
+- devo poi fare uso di `coeffs_tot`: semplicemente posso usare il dizionario con cui ho ordi-
+  nato l'array e passare come keywords l'indice del ciclo e dare una volta `_p` e l'altra `_m`
+  (in questo modo sono anche più sicuro di star passando i valori corretti, non mi affido
+  solo a una regola numerica che potrei aver interpretato erroneamente)

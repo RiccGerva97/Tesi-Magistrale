@@ -101,7 +101,7 @@ def download_batch(local_batch_file):
 #     for fpath in files_da_scaricare:
 #         f.write(fpath + "\n")
 
-download_batch("third-download-files.txt")
+download_batch("second-download-files.txt")
 
 #######################################################################################
 

@@ -18,6 +18,16 @@ order_folders = {
     'zeldovich' : 16
 }
 
+cosmological_pars = {
+    'Om'  : 0,
+    'Ob'  : 1,
+    'h'   : 2,
+    'ns'  : 3,
+    's8'  : 4,
+    'w'   : 5,
+    'Mnu' : 6
+}
+
 order_dimension = {
     'Om'  : 0,
     'Ob'  : 1,
