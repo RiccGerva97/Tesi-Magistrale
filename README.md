@@ -1,4 +1,5 @@
 # Tesi Magistrale: Matrici di Fisher tramite Scattering Transform
+
 ###### di Gervasoni Riccardo
 
 </br>
@@ -16,6 +17,7 @@ Il primo passo è stato utilizzare le simulazioni n-body di Quijote:
 </br>
 
 ## Utilizzo
+
 Per poter calcolare i coefficientidi scattering è necessario modificare la variabile `root` (nella funzione `CALCULUS`, in `calc_WST_halos.py`) per indicare la posizione della cartella contenente i file degli aloni (e.g. fino a .../Halos/FoF); assicurarsi inoltre di aver selezionato il redshift (`snapnum`) desiderato.
 Avviare lo script da line di comando; ci sono le seguenti opzioni:
 
@@ -29,6 +31,7 @@ Avviare lo script da line di comando; ci sono le seguenti opzioni:
   - ```-v <verbose opt>```: metodo esteso che chiede uno alla volta i valori precedenti, "Invio" dà il valore di default.
 
 ### Output
+
 I file di output contenti i coefficienti WST saranno contenuti in una cartella nella directory principale, chiamata `WST-files` e avranno la seguente struttura:
 
 'nome cosmologia' _ coefficients _ 'celle per lato della griglia' _ 'celle per lato per i coeff. WST' _ 'numero realizzazioni' . wst"

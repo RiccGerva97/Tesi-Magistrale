@@ -115,5 +115,7 @@ for i in range(len(lines)):
 if __name__ == "__main__":
     n = sys.argv[1]
     n = int(n)
+    if name_list[n] == "fiducial" or name_list[n] == "zeldovich":
+        n_realiz = 500
     
     CALCULUS(N_hgrid=N_hgrid, N_WSTgrid=N_WSTgrid, n_realiz=n_realiz, Ff = name_list[n])
