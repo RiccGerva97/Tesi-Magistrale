@@ -29,12 +29,11 @@ echo "SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
 # Name of the files
 xFILE="calc_WST_halos.py"
 
-module load anaconda/3
-source activate base
-# conda activate venv
-
 # Job submission
 cd $SLURM_SUBMIT_DIR
 python $xFILE $SLURM_ARRAY_TASK_ID
+
+xFILE="Fisher_eval.py"
+python $xFILE
 
 exit 0
