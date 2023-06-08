@@ -77,6 +77,7 @@ def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = ['fiducial', 'h
             num = len(in_realizations)
         else:
             num = n_realiz
+            print(root+folder)
             in_realizations = os.listdir(root+folder)[0:num]
 
         filename = '_coefficients_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(num)+'.wst'
