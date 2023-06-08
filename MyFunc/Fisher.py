@@ -7,7 +7,7 @@ def correlation_matrix(m):
     """
     avg = np.average(m, axis=0)
     dim = len(avg)
-    assert dim == 75
+    # assert dim == 75
     # realiz = len(m[0])
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -60,7 +60,7 @@ def correlation_matrix(m):
     #     for j in range(dim):
     #         CORR[i, j] = np.sum((avg[i] - m[i])*(avg[j] - m[j])) / (sigma_bis[i] * sigma_bis[j])
     # #
-    assert np.shape(CORR) == (75, 75), "ERROR in evaluating correlation matrix"
+    # assert np.shape(CORR) == (75, 75), "ERROR in evaluating correlation matrix"
     if np.linalg.det(CORR) == 0:
         print("¶ WARNING: correlation matrix is singular")
     

@@ -87,3 +87,24 @@ def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = ['fiducial', 'h
         for i in in_realizations:
             snapdir = root + folder + '/' + i
             HaloWST_one_f_MASL(folder+filename, snapdir, N_hgrid = N_hgrid, N_WSTgrid = N_WSTgrid)
+
+
+# import os
+# import sys
+# sys.path.insert(1, './MyFunc')
+# from MyFunc.name_parser import info_name, cosmo_parser
+# from MyFunc.WST_eval import CALCULUS
+
+# if __name__ == "__main__":
+#     CALCULUS(N_h, N_WSTgrid=N_WSTgrid, n_realiz=n_realiz, Ff = name_list[n])
+
+
+
+
+
+
+
+
+
+
+
