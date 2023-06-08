@@ -8,9 +8,8 @@ from MyFunc.WST_eval import CALCULUS
 lines = []
 with open("file_list_to_create.txt", 'rb') as file:
     lines = file.readlines()
-#print(str(lines[1][2:]))
+
 # SAVES parameters, assuming all cosmologies are calculated with same parameters
-#exit()
 info = info_name(lines[0].decode("utf-8"))
 N_hgrid = info[0]
 N_WSTgrid = info[1]
@@ -19,7 +18,7 @@ N_WSTgrid = info[1]
 name_list = []
 for i in range(len(lines)):
     name_list.append(cosmo_parser(lines[i].decode("utf-8")))
-# print(name_list)
+
 if __name__ == "__main__":
     n = sys.argv[1]
     n = int(n)
@@ -30,5 +29,7 @@ if __name__ == "__main__":
     else:
         n_realiz = info[2]
     
+    # REMEMBER TO REMOVE!!!
     n_realiz = 1
+    
     CALCULUS(N_hgrid=N_hgrid, N_WSTgrid=N_WSTgrid, n_realiz=n_realiz, Ff = [name_list[n]])

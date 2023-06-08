@@ -1,5 +1,10 @@
 def info_name(name):
-    """Obtain realization information from .wst file"""
+    """Obtain realization information from .wst file
+    Returns:
+    - cells per side of density grid
+    - cells per side of wst grid
+    - number of realizations
+    """
     # assert type(name) == str
     # print("TYPE: ", type(name))
     # info = name.split('_')
@@ -12,7 +17,7 @@ def info_name(name):
     return [int(N_hgrid), int(N_WSTgrid), int(n_realiz)]
 
 def cosmo_parser(name):
-    """Obtain cosmology from .wst file"""
+    """Obtain name cosmology from .wst file"""
     info = name.split('_')
     #print(info[0])
     if info[0] == "fiducial":
