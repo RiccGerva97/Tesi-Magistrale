@@ -43,7 +43,8 @@ def HaloWST_one_f_MASL(filename, snapdir, snapnum=2, N_hgrid=256, hlength=1000, 
     dens /= np.mean(dens, dtype=np.float64)
     dens -= 1.0  
 
-    Sx = HarmonicScattering3D(J=j, L=l, shape=(N_WSTgrid, N_WSTgrid, N_WSTgrid), sigma_0=0.8, integral_powers=[0.8]).scattering(torch.from_numpy(dens))
+    S = HarmonicScattering3D(J=j, L=l, shape=(N_WSTgrid, N_WSTgrid, N_WSTgrid), sigma_0=0.8, integral_powers=[0.8])
+    Sx = S.scattering(torch.from_numpy(dens))
 
     with open('/home/riccardo/WST-files/'+filename, 'ab') as file:
         pickle.dump(torch.flatten(Sx, start_dim=0).cpu().detach().numpy(), file)
@@ -78,7 +79,7 @@ def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = ['fiducial', 'h
             num = len(in_realizations)
         else:
             num = n_realiz
-            print(root+folder)
+            # print(root+folder)
             in_realizations = os.listdir(root+folder)[0:num]
 
         filename = '_coefficients_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(num)+'.wst'

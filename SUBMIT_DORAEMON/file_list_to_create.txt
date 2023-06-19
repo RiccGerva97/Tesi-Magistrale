@@ -1,6 +1,6 @@
 fiducial_coefficients_256_256_350.wst
 zeldovich_coefficients_256_256_350.wst
-h_m_coefficients_256_256_350.wst.wst
+h_m_coefficients_256_256_350.wst
 h_p_coefficients_256_256_350.wst
 ns_m_coefficients_256_256_350.wst
 ns_p_coefficients_256_256_350.wst

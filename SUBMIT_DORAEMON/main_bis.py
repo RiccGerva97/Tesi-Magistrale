@@ -192,11 +192,7 @@ def HaloWST_one_f_MASL(filename, snapdir, snapnum=2, N_hgrid=256, hlength=1000, 
     with open('/home/riccardo/WST-files/'+filename, 'ab') as file:
         pickle.dump(torch.flatten(Sx, start_dim=0).cpu().detach().numpy(), file)
 
-def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = ['fiducial', 'h_m', 'h_p',\
-                                                                  'Mnu_p', 'Mnu_pp' ,'Mnu_ppp', \
-                                                                  'ns_m', 'ns_p', 'Ob2_m', 'Ob2_p',\
-                                                                  's8_m', 's8_p',\
-                                                                  'w_m', 'w_p', 'zeldovich']):
+def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = 'fiducial'):
     """Evaluates WST coefficients and print them in one/two files (this is an option) for given folders
     using `HaloWST_one_f_MASL`
     """
@@ -213,26 +209,26 @@ def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = ['fiducial', 'h
     root = '/workplace/riccardo/Halos/'
 
     # choose cosmologies 
-    folders = Ff
+    folder = Ff
 
     # loop over cosmologies, calculate and create file WST coeff
-    for folder in folders:
-        if n_realiz < 0:
-            in_realizations = os.listdir(root+folder)
-            num = len(in_realizations)
-        else:
-            num = n_realiz
-            # print(root+folder)
-            in_realizations = os.listdir(root+folder)[0:num]
+    if n_realiz < 0:
+        in_realizations = os.listdir(root+folder)
+        num = len(in_realizations)
+    else:
+        num = n_realiz
+        # print(root+folder)
+        in_realizations = os.listdir(root+folder)[0:num]
 
-        filename = '_coefficients_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(num)+'.wst'
+    filename = '_coefficients_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(num)+'.wst'
 
-        # # delete existing file, want a new one (not extending it)
-        if os.path.exists('../WST-files/'+folder+filename): os.remove('../WST-files/'+folder+filename)
-        
-        for i in in_realizations:
-            snapdir = root + folder + '/' + i
-            HaloWST_one_f_MASL(folder+filename, snapdir, N_hgrid = N_hgrid, N_WSTgrid = N_WSTgrid)
+    # delete existing file, want a new one (not extending it)
+    if os.path.exists('/home/riccardo/WST-files/'+folder+filename):
+        os.remove('/home/riccardo/WST-files/'+folder+filename)
+    
+    for i in in_realizations:
+        snapdir = root + folder + '/' + i
+        HaloWST_one_f_MASL(folder+filename, snapdir, N_hgrid = N_hgrid, N_WSTgrid = N_WSTgrid)
 
 
 #=== MAIN =======================================================================
@@ -265,4 +261,4 @@ if __name__ == "__main__":
     # REMEMBER TO REMOVE!!!
     n_realiz = 1
     
-    CALCULUS(N_hgrid=N_hgrid, N_WSTgrid=N_WSTgrid, n_realiz=n_realiz, Ff = [name_list[n]])
+    CALCULUS(N_hgrid=N_hgrid, N_WSTgrid=N_WSTgrid, n_realiz=n_realiz, Ff = name_list[n])
