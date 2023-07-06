@@ -153,7 +153,7 @@ def cosmo_parser(name):
 
 #=== EVALUAERS =======================================================================
 
-def HaloWST_one_f_MASL(filename, snapdir, snapnum=2, N_hgrid=256, hlength=1000, N_WSTgrid=256, j=4, l=4):
+def HaloWST_one_f_MASL(filename, HarmonicScattering3D, snapnum=2, N_hgrid=256, hlength=1000, N_WSTgrid=256, j=4, l=4):
     """Funcion that evaluates Scattering Transform coefficients of first and second order,
     using a halo database from Quijote simulations.
     NB: this function uses `MAS_library.MA()` to generate density matrix, not `myCIC`.
@@ -176,17 +176,15 @@ def HaloWST_one_f_MASL(filename, snapdir, snapnum=2, N_hgrid=256, hlength=1000, 
 
     # gc.collect()
 
+    S = HarmonicScattering3D(J=j, L=l, shape=(N_WSTgrid, N_WSTgrid, N_WSTgrid), sigma_0=0.8, integral_powers=[0.8])
+
     datas = readfof.FoF_catalog(snapdir, snapnum, read_IDs=False)
     pos_h = datas.GroupPos/1e3                     # positions in Mpc/h
     mass = datas.GroupMass * 1e10                  # masses in M_sun/h
     dens = np.zeros((N_hgrid,N_hgrid,N_hgrid), dtype=np.float32)
-
     MASL.MA(pos_h.astype(np.float32), dens, hlength, 'CIC', W = mass.astype(np.float32))
-    
     dens /= np.mean(dens, dtype=np.float64)
     dens -= 1.0  
-
-    S = HarmonicScattering3D(J=j, L=l, shape=(N_WSTgrid, N_WSTgrid, N_WSTgrid), sigma_0=0.8, integral_powers=[0.8])
     Sx = S.scattering(torch.from_numpy(dens))
 
     with open('/home/riccardo/WST-files/'+filename, 'ab') as file:
@@ -217,8 +215,9 @@ def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = 'fiducial'):
         num = len(in_realizations)
     else:
         num = n_realiz
-        # print(root+folder)
+        print(root+folder)
         in_realizations = os.listdir(root+folder)[0:num]
+        pass
 
     filename = '_coefficients_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(num)+'.wst'
 
@@ -229,6 +228,39 @@ def CALCULUS(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = 'fiducial'):
     for i in in_realizations:
         snapdir = root + folder + '/' + i
         HaloWST_one_f_MASL(folder+filename, snapdir, N_hgrid = N_hgrid, N_WSTgrid = N_WSTgrid)
+
+def CALCULUS2(N_hgrid = 256, N_WSTgrid = 256, n_realiz = -1, Ff = 'fiducial'):
+    """Evaluates WST coefficients and print them in one/two files (this is an option) for given folders
+    using `HaloWST_one_f_MASL`
+    """
+
+    # define desired redshift
+    # snapnum = 2
+    #z_dict = {4:0.0, 3:0.5, 2:1.0, 1:2.0, 0:3.0}
+    #redshift = z_dict[snapnum]
+
+    # define root path where to find hale catalogues
+    # root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/FoF/'
+    # root = '/media/fuffolo97/HDD1/UNI/Tesi/Halos/'
+    root = "/workplace/riccardo/Halos/"
+
+    if n_realiz < 0:
+       in_realizations = os.listdir(root+Ff)
+       num = len(in_realizations)
+    else:
+       num = n_realiz
+       print(root+Ff)
+       in_realizations = os.listdir(root+Ff)[0:num]
+       filename = '_coefficients_'+str(N_hgrid)+"_"+str(N_WSTgrid)+"_"+str(num)+'.wst'
+
+       # delete existing file, want a new one (not extending it)
+       if os.path.exists('/home/riccardo/WST-files/'+Ff+filename):
+           os.remove('/home/riccardo/WST-files/'+Ff+filename)
+
+       for i in in_realizations:
+           snapdir = root + Ff + '/' + i
+           HaloWST_one_f_MASL(Ff+filename, snapdir, N_hgrid = N_hgrid, N_WSTgrid = N_WSTgrid)
+
 
 
 #=== MAIN =======================================================================
