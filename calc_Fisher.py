@@ -269,7 +269,7 @@ with open("results_no_diagonalizing.txt", 'wb') as res:
     pickle.dump(results, res)
 
 print("\nRESULTS:\n", results, "\n")
-exit()
+# exit()
 constrains = (sp.linalg.eig(inverse))[0]
 constrains = constrains ** 0.5
 print("\nAAA", (constrains), "\n")
