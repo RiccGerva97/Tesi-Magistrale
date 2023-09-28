@@ -1,0 +1,13 @@
+prefix=/home/fuffolo97/TESI/.conda
+exec_prefix=/home/fuffolo97/TESI/.conda
+libdir=/home/fuffolo97/TESI/.conda/lib
+sharedlibdir=/home/fuffolo97/TESI/.conda/lib
+includedir=/home/fuffolo97/TESI/.conda/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.13
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
