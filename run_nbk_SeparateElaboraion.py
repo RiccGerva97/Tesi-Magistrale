@@ -27,13 +27,13 @@ from nbodykit.lab import cosmology
 from readfof import FoF_catalog
 from torch import flatten, from_numpy
 
-number_coeff_pk = 200
+number_coeff_pk = 159
 
 # calculate the mean value for all cosmologies
 files_to_proecss = os.listdir('./Pk-files/')
-
-every_mean     = np.zeros((len(cosmological_pars), number_coeff_pk))
-every_mean_rsd = np.zeros((len(cosmological_pars), number_coeff_pk))
+number_of_files = int(len(files_to_proecss) / 2)
+every_mean     = np.zeros((number_of_files, number_coeff_pk))
+every_mean_rsd = np.zeros((number_of_files, number_coeff_pk))
 
 for FC in tqdm(range(len(files_to_proecss))):
     every_pk = []
@@ -56,8 +56,8 @@ for FC in tqdm(range(len(files_to_proecss))):
         real_power.append(every_pk[i]["power"].real  - every_pk[i].attrs['shotnoise'] )
 
     # assegnate mean value to general array
-    if "rsd" not in files_to_proecss[FC]: every_mean[index] = np.mean(real_power, axis=0)
-    elif "rsd" in files_to_proecss[FC]:   every_mean_rsd[index] = np.mean(real_power, axis=0)
+    if "rsd" not in files_to_proecss[FC]: every_mean[index] += np.mean(real_power, axis=0)
+    elif "rsd" in files_to_proecss[FC]:   every_mean_rsd[index] += np.mean(real_power, axis=0)
     else:
         error_message()
         break
@@ -79,16 +79,17 @@ for i in cosmological_pars:
         #assert derivates_multi_N_pk[order_dimension[i]].all() > 1e-3, f"Derivates of {i} is null"
 
     elif "Mnu" in i:
-        deriavates_pk[order_dimension['Mnu']]     = (deriavates_pk[order_folders["Mnu_p"]]     - every_mean[order_folders["Zeldovich"]])     / (0.1)
-        deriavates_rsd_pk[order_dimension['Mnu']] = (deriavates_rsd_pk[order_folders["Mnu_p"]] - every_mean_rsd[order_folders["Zeldovich"]]) / (0.1)
+        deriavates_pk[order_dimension['Mnu']]     \
+            = (every_mean[order_folders["Mnu_p"]]     - every_mean[order_folders["zeldovich"]])     / (0.1)
+        deriavates_rsd_pk[order_dimension['Mnu']] = (every_mean_rsd[order_folders["Mnu_p"]] - every_mean_rsd[order_folders["zeldovich"]]) / (0.1)
         #assert derivates_multi_N_pk[order_dimension['Mnu']].all() > 1e-3, "Derivates of neutrino mass is null"
 
     elif "Ob" in i:
         deriavates_pk[order_dimension['Ob']] = \
-            (deriavates_pk[order_folders[i+"2_p"]]-deriavates_pk[order_folders[i+"2_m"]]) \
+            (every_mean[order_folders[i+"2_p"]]-every_mean[order_folders[i+"2_m"]]) \
               / (2 * VarCosmoPar['d_'+i+"2"] * fiducial_vals[i] )
         deriavates_rsd_pk[order_dimension['Ob']] = \
-            (deriavates_rsd_pk[order_folders[i+"2_p"]]-deriavates_rsd_pk[order_folders[i+"2_m"]]) \
+            (every_mean_rsd[order_folders[i+"2_p"]]-every_mean_rsd[order_folders[i+"2_m"]]) \
               / (2 * VarCosmoPar['d_'+i+"2"] * fiducial_vals[i] )
         #assert derivates_multi_N_pk[order_dimension['Ob']].all() > 1e-3, "Derivates of Omaga barion is null"
 
@@ -121,9 +122,14 @@ with open("./Pk-files/"+nfile_fiducial_rsd, "rb") as f:
         except EOFError:
             break
 
+fiducial_pk_pk, fiducial_rsd_pk_pk = [], []
+for i in range(len(fiducial_pk)):
+    fiducial_pk_pk.append(fiducial_pk[i]["power"].real  - fiducial_pk[i].attrs['shotnoise'] )
+    fiducial_rsd_pk_pk.append(fiducial_rsd_pk[i]["power"].real  - fiducial_rsd_pk[i].attrs['shotnoise'] )
+
 # create transposed array of Pk coefficients
-fiducial_pk = np.array(fiducial_pk).transpose()
-fiducial_rsd_pk = np.array(fiducial_rsd_pk).transpose()
+fiducial_pk = np.array(fiducial_pk_pk).transpose()
+fiducial_rsd_pk = np.array(fiducial_rsd_pk_pk).transpose()
 
 # correlation matrix
 corr = np.corrcoef(fiducial_pk)
@@ -172,9 +178,16 @@ for i in range(len(inverse)):
 for i in range(7):
     for j in range(7):
         assert (np.abs(constrains[i, j] - constrains[j, i]) < 1e-5)
+        assert (np.abs((constrains[i, j] - constrains[j, i])/constrains[i, j]) < 1e-5)
+        assert (np.abs((constrains[i, j] - constrains[j, i])/constrains[j, i]) < 1e-5)
         assert (np.abs(constrains_rsd[i, j] - constrains_rsd[j, i]) < 1e-5)
-        constrains[i, j] = np.abs(constrains[j, i])
-        constrains_rsd[i, j] = constrains_rsd[j, i]
+        assert (np.abs((constrains_rsd[i, j] - constrains_rsd[j, i])/constrains_rsd[i, j]) < 1e-5)
+        assert (np.abs((constrains_rsd[i, j] - constrains_rsd[j, i])/constrains_rsd[j, i]) < 1e-5)
+        # constrains[i, j] = np.abs(constrains[j, i])
+        # constrains_rsd[i, j] = constrains_rsd[j, i]
+        if i > j:
+            constrains[i, j] = constrains[j, i]
+            constrains_rsd[i, j] = constrains_rsd[j, i]
 
 # create correlation graphs, maybe useful to confront with wst
 sns.heatmap(corr.transpose())

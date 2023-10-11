@@ -56,20 +56,24 @@ print("Beginning the Power Spectrum data evaluation...")
 # write files with `picke` for all cosmology in both spaces
 for FC in tqdm(range(len(folders_cosmo))):
 
-    # define a cosmology obj for current cosmology folder
-    cosmology = cosmology.Cosmology(h = COSMOPAR[folders_cosmo[FC]][2],
-                                    sigma8 = COSMOPAR[folders_cosmo[FC]][4],
-                                    Omega0_cdm = COSMOPAR[folders_cosmo[FC]][0],
-                                    n_s = COSMOPAR[folders_cosmo[FC]][3]
-                                    )
+    # # define a cosmology obj for current cosmology folder
+    # cosmology = cosmology.Cosmology(h = COSMOPAR[folders_cosmo[FC]][2],
+    #                                 sigma8 = COSMOPAR[folders_cosmo[FC]][4],
+    #                                 Omega0_cdm = COSMOPAR[folders_cosmo[FC]][0],
+    #                                 n_s = COSMOPAR[folders_cosmo[FC]][3]
+    #                                 )
     
     root_in = root + folders_cosmo[FC] + '/'
     realizations = os.listdir(root_in)
 
     # check if the file containing Power Spectrum of the current cosmology already exist
     # create both files for normal and r.d. spaces
-    if os.path.exists('./Pk-files/' + folders_cosmo[FC] + '_Pk_nbk.pk'):     os.remove('./Pk-files/' + folders_cosmo[FC] + '_Pk_nbk.pk')
-    if os.path.exists('./Pk-files/' + folders_cosmo[FC] + '_Pk_rsd_nbk.pk'): os.remove('./Pk-files/' + folders_cosmo[FC] + '_Pk_rsd_nbk.pk')
+    if os.path.exists('./Pk-files/' + folders_cosmo[FC] + '_Pk_nbk.pk'):
+        #os.remove('./Pk-files/' + folders_cosmo[FC] + '_Pk_nbk.pk')
+        continue
+    if os.path.exists('./Pk-files/' + folders_cosmo[FC] + '_Pk_rsd_nbk.pk'):
+        #os.remove('./Pk-files/' + folders_cosmo[FC] + '_Pk_rsd_nbk.pk')
+        continue
 
     # loop over realizations of a cosmology
     for i in tqdm(range(len(realizations))):
@@ -111,7 +115,7 @@ for FC in tqdm(range(len(folders_cosmo))):
         
         
         # evaluate FFTPower
-        r     = FFTPower(mesh,     mode='1d', dk=0.005, kmin=0.01)
+        r = FFTPower(mesh, mode='1d', dk=0.005, kmin=0.01)
         r_rsd = FFTPower(mesh_rsd, mode='1d', dk=0.005, kmin=0.01)
         
         # get actual Power Spectrum datas
