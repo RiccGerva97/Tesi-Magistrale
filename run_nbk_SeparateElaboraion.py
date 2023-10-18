@@ -62,14 +62,16 @@ for FC in tqdm(range(len(files_to_proecss))):
         error_message()
         break
 
-print("All the Power Spectrum mean value have been evaluated,\nnow begins the derivates calculus")
+print("\nAll the Power Spectrum mean value have been evaluated,\nnow begins the derivates calculus\n")
 
 #====================== DERIVATES ==========================================================================
 # now calculate the derivates
 deriavates_pk     = np.zeros((len(cosmological_pars), number_coeff_pk))
 deriavates_rsd_pk = np.zeros((len(cosmological_pars), number_coeff_pk))
+deriavates_pk_no_W      = np.zeros((len(cosmological_pars)-1, number_coeff_pk))
+deriavates_rsd_pk_no_W  = np.zeros((len(cosmological_pars)-1, number_coeff_pk))
 
-for i in cosmological_pars:
+for i in tqdm(cosmological_pars):
     if "Mnu" not in i and "Ob" not in i:
         ind = order_dimension[i]
         deriavates_pk[ind]=(every_mean[order_folders[i+"_p"]]-every_mean[order_folders[i+"_m"]])\
@@ -77,12 +79,22 @@ for i in cosmological_pars:
         deriavates_rsd_pk[ind]=(every_mean_rsd[order_folders[i+"_p"]]-every_mean_rsd[order_folders[i+"_m"]])\
                     /  (2 * VarCosmoPar['d_'+i] * fiducial_vals[i] )
         #assert derivates_multi_N_pk[order_dimension[i]].all() > 1e-3, f"Derivates of {i} is null"
+        if "w" not in i:
+            deriavates_pk_no_W[ind]=(every_mean[order_folders[i+"_p"]]-every_mean[order_folders[i+"_m"]])\
+                    /  (2 * VarCosmoPar['d_'+i] * fiducial_vals[i] )
+            deriavates_rsd_pk_no_W[ind]=(every_mean_rsd[order_folders[i+"_p"]]-every_mean_rsd[order_folders[i+"_m"]])\
+                    /  (2 * VarCosmoPar['d_'+i] * fiducial_vals[i] )
+
 
     elif "Mnu" in i:
         deriavates_pk[order_dimension['Mnu']]     \
             = (every_mean[order_folders["Mnu_p"]]     - every_mean[order_folders["zeldovich"]])     / (0.1)
         deriavates_rsd_pk[order_dimension['Mnu']] = (every_mean_rsd[order_folders["Mnu_p"]] - every_mean_rsd[order_folders["zeldovich"]]) / (0.1)
         #assert derivates_multi_N_pk[order_dimension['Mnu']].all() > 1e-3, "Derivates of neutrino mass is null"
+        deriavates_pk_no_W[order_dimension['Mnu']]     \
+            = (every_mean[order_folders["Mnu_p"]]     - every_mean[order_folders["zeldovich"]])     / (0.1)
+        deriavates_rsd_pk_no_W[order_dimension['Mnu']] = (every_mean_rsd[order_folders["Mnu_p"]] - every_mean_rsd[order_folders["zeldovich"]]) / (0.1)
+
 
     elif "Ob" in i:
         deriavates_pk[order_dimension['Ob']] = \
@@ -92,9 +104,17 @@ for i in cosmological_pars:
             (every_mean_rsd[order_folders[i+"2_p"]]-every_mean_rsd[order_folders[i+"2_m"]]) \
               / (2 * VarCosmoPar['d_'+i+"2"] * fiducial_vals[i] )
         #assert derivates_multi_N_pk[order_dimension['Ob']].all() > 1e-3, "Derivates of Omaga barion is null"
+        deriavates_pk_no_W[order_dimension['Ob']] = \
+            (every_mean[order_folders[i+"2_p"]]-every_mean[order_folders[i+"2_m"]]) \
+              / (2 * VarCosmoPar['d_'+i+"2"] * fiducial_vals[i] )
+        deriavates_rsd_pk_no_W[order_dimension['Ob']] = \
+            (every_mean_rsd[order_folders[i+"2_p"]]-every_mean_rsd[order_folders[i+"2_m"]]) \
+              / (2 * VarCosmoPar['d_'+i+"2"] * fiducial_vals[i] )
 
 
 #====================== FISHER MATRIX ======================================================================
+
+print("Derivates evaluated, now it's FIsher turn >.<\n")
 
 nfile_fiducial, nfile_fiducial_rsd = "a", "a"
 
@@ -123,7 +143,7 @@ with open("./Pk-files/"+nfile_fiducial_rsd, "rb") as f:
             break
 
 fiducial_pk_pk, fiducial_rsd_pk_pk = [], []
-for i in range(len(fiducial_pk)):
+for i in tqdm(range(len(fiducial_pk))):
     fiducial_pk_pk.append(fiducial_pk[i]["power"].real  - fiducial_pk[i].attrs['shotnoise'] )
     fiducial_rsd_pk_pk.append(fiducial_rsd_pk[i]["power"].real  - fiducial_rsd_pk[i].attrs['shotnoise'] )
 
@@ -145,23 +165,31 @@ Hart_rsd = Hartlap(cov_rsd, 1000)
 
 # initialize empty Fisher matrix
 Fish, Fish_rsd  = np.zeros((7,7)), np.zeros((7,7))
+Fish_no_W, Fish_rsd_no_W  = np.zeros((6,6)), np.zeros((6,6))
 
 # create Fisher matrix
-for a in range(7):
+for a in tqdm(range(7)):
     for b in range(7):
         Fish[a, b]  = np.sum(deriavates_pk[a]  * (Hart  * deriavates_pk[b]))
         Fish_rsd[a, b]  = np.sum(deriavates_rsd_pk[a]  * (Hart_rsd  * deriavates_rsd_pk[b]))
+for a in tqdm(range(6)):
+    for b in range(6):
+        Fish_no_W[a, b]  = np.sum(deriavates_pk_no_W[a]  * (Hart  * deriavates_pk_no_W[b]))
+        Fish_rsd_no_W[a, b]  = np.sum(deriavates_rsd_pk_no_W[a]  * (Hart_rsd  * deriavates_rsd_pk_no_W[b]))
 
 # GETTING CONATRAINS:
 # create inverse of Fisher matrix
 inverse = np.linalg.inv(Fish)
 inverse_rsd = np.linalg.inv(Fish_rsd)
+inverse_no_W = np.linalg.inv(Fish_no_W)
+inverse_rsd_no_W = np.linalg.inv(Fish_rsd_no_W)
 
 # initialize empty array containing diagonal elements
 diagonal, diagonal_rsd = [], []
 
 # inizialize empty matrix containing all correletions
 constrains, constrains_rsd = np.zeros((7,7)), np.zeros((7,7))
+constrains_no_W, constrains_rsd_no_W = np.zeros((6,6)), np.zeros((6,6))
 
 # `for loop`: assegnate diaconal elements
 for i in range(len(inverse)):
@@ -172,6 +200,10 @@ for i in range(len(inverse)):
         constrains[i, j] += np.abs(inverse[i, j])**0.5
         constrains_rsd[i, j] += np.abs(inverse_rsd[i, j])**0.5
         # assert constrains_N_wst[i, j] >= 0
+for i in range(6):
+    for j in range(6):
+        constrains_no_W[i, j] += np.abs(inverse_no_W[i, j])**0.5
+        constrains_rsd_no_W[i, j] += np.abs(inverse_rsd_no_W[i, j])**0.5
 
 # after checking symmetric elements are almost equal, set them as equal
 # this is needed because exact symm. matrix is needed
@@ -201,5 +233,9 @@ plt.savefig('correlation_matrix_rsd_pk.pdf', format='pdf')
 # save constrains in a file
 with open("./ZZ_results/constrains_pk.res", "ab") as f:
     pickle.dump(constrains, f)
-with open("./ZZ_results/constrains_rsd_pk.res", "ab") as f:
+with open("./ZZ_results/constrains_rsd_pk.res", "ab") as fd:
     pickle.dump(constrains_rsd, f)
+with open("./ZZ_results/constrains_pk_no_W.res", "ab") as f:
+    pickle.dump(constrains_no_W, f)
+with open("./ZZ_results/constrains_rsd_pk_no_W.res", "ab") as f:
+    pickle.dump(constrains_rsd_no_W, f)
