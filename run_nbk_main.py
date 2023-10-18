@@ -3,7 +3,7 @@
 import nbodykit
 from nbodykit.lab import *
 from nbodykit import style, setup_logging
-
+import redshift_space_library
 # import corner
 from tqdm import tqdm
 import numpy as np
@@ -16,7 +16,8 @@ import sys, pickle, time, os
 # sys.path.insert(1, './')
 from run_nbk_dict import COSMOPAR, order_dimension, order_folders, cosmological_pars, \
                          VarCosmoPar, fiducial_vals
-from run_nbk_funcs import cosmo_parser, PacMan, Hartlap, error_message
+from run_nbk_funcs import cosmo_parser, PacMan, Hartlap, HubblePar, \
+                          covariation_matrix, error_message
 
 # nbodykit tool to read custom (non-standard) catalogue file type
 from nbodykit.io.base import FileType
@@ -30,6 +31,7 @@ from torch import flatten, from_numpy
 
 # basic variables    
 N_grid = 256
+N_mesh = 512
 BoxDim = 1000.
 line_of_sight = [0, 0, 1]
 
@@ -69,11 +71,11 @@ for FC in tqdm(range(len(folders_cosmo))):
     # check if the file containing Power Spectrum of the current cosmology already exist
     # create both files for normal and r.d. spaces
     if os.path.exists('./Pk-files/' + folders_cosmo[FC] + '_Pk_nbk.pk'):
-        #os.remove('./Pk-files/' + folders_cosmo[FC] + '_Pk_nbk.pk')
-        continue
+        os.remove('./Pk-files/' + folders_cosmo[FC] + '_Pk_nbk.pk')
+        #continue
     if os.path.exists('./Pk-files/' + folders_cosmo[FC] + '_Pk_rsd_nbk.pk'):
-        #os.remove('./Pk-files/' + folders_cosmo[FC] + '_Pk_rsd_nbk.pk')
-        continue
+        os.remove('./Pk-files/' + folders_cosmo[FC] + '_Pk_rsd_nbk.pk')
+        #continue
 
     # loop over realizations of a cosmology
     for i in tqdm(range(len(realizations))):
@@ -87,10 +89,16 @@ for FC in tqdm(range(len(folders_cosmo))):
         pos_h = (datas.GroupPos  / 1e3 ).astype(np.float32)                   # positions in Mpc/h
         mass  = (datas.GroupMass * 1e10).astype(np.float32)                   # masses in M_sun/
         vel   = (datas.GroupVel  * (1.0+redshift)).astype(np.float32)         # Halo peculiar velocities in km/s
-
+        
+        # H_cosmo = HubblePar(z = redshift, O_m = fiducial_vals["Om"], H_0 = fiducial_vals["h"],\
+        #                     w = fiducial_vals["w"])
+        H_cosmo = HubblePar(z = redshift, O_m =  COSMOPAR[folders_cosmo[FC]][0],\
+                            H_0 =  COSMOPAR[folders_cosmo[FC]][2],\
+                            w =  COSMOPAR[folders_cosmo[FC]][6]    )
         pos_rsd = []
         for i in range(len(vel)):
-            pos_rsd.append(PacMan(pos_h[i] + (1+redshift) * np.array( ([0, 0, vel[i][2]/H_0]) ) ))
+            # pos_rsd.append(PacMan(pos_h[i] + (1+redshift) * np.array( ([0, 0, vel[i][2]/H_0]) ) ))
+            pos_rsd.append(PacMan(pos_h[i] + (1+redshift) * np.array( ([0, 0, vel[i][2]/ H_cosmo ]) ) ))
         pos_rsd = np.array(pos_rsd, dtype=np.float32)                         # positions in RSD in Mpc/h
 
         # create fale to store data
@@ -104,15 +112,16 @@ for FC in tqdm(range(len(folders_cosmo))):
         binCat = BinaryCatalog(ff.name, dtype_cust)
 
         # create mesh
-        mesh = binCat.to_mesh(resampler='cic', Nmesh=256, compensated=True,
+        mesh = binCat.to_mesh(resampler='cic', Nmesh=N_mesh, compensated=True,
                               position='Position', weight="Mass",
+                              #compensated = True, # antialiasing
                               BoxSize=BoxDim
                               )
-        mesh_rsd = binCat.to_mesh(resampler='cic', Nmesh=256, compensated=True,
+        mesh_rsd = binCat.to_mesh(resampler='cic', Nmesh=N_mesh, compensated=True,
                                   position='RSDPosition', weight="Mass",
+                                  #compensated = True, # antialiasing
                                   BoxSize=BoxDim
                                   )
-        
         
         # evaluate FFTPower
         r = FFTPower(mesh, mode='1d', dk=0.005, kmin=0.01)
@@ -170,8 +179,8 @@ for FC in tqdm(range(len(files_to_proecss))):
         real_power.append(every_pk[i]["power"].real  - every_pk[i].attrs['shotnoise'] )
 
     # assegnate mean value to general array
-    if "rsd" not in files_to_proecss[FC]: every_mean[index] = np.mean(real_power, axis=0)
-    elif "rsd" in files_to_proecss[FC]:   every_mean_rsd[index] = np.mean(real_power, axis=0)
+    if "rsd" not in files_to_proecss[FC]: every_mean[index] += np.mean(real_power, axis=0)
+    elif "rsd" in files_to_proecss[FC]:   every_mean_rsd[index] += np.mean(real_power, axis=0)
     else:
         error_message()
         break
@@ -242,6 +251,16 @@ fiducial_rsd_pk = np.array(fiducial_rsd_pk).transpose()
 # correlation matrix
 corr = np.corrcoef(fiducial_pk)
 corr_rsd = np.corrcoef(fiducial_rsd_pk)
+
+my_corr = covariation_matrix(fiducial_pk)
+my_corr_rsd = covariation_matrix(fiducial_rsd_pk)
+
+for i in range(len(corr)):
+    for j in range(len(corr)):
+        if not np.abs(corr[i, j] - my_corr[i, j] / corr[i, j]) < 1e-5:
+            error_message("ERROR: The real matrix doesn't correspond in: ("+ str(i)+"; "+ str(j)+")!")
+        if not np.abs(corr_rsd[i, j] - my_corr_rsd[i, j] / corr_rsd[i, j]) < 1e-5:
+            error_message("ERROR: The rsd matrix doesn't correspond in: ("+ str(i)+"; "+ str(j)+")!")
 
 # covariance matrix
 cov = np.cov(fiducial_pk)

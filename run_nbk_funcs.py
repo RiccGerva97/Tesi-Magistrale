@@ -40,8 +40,42 @@ def Hartlap(mat, Nr = 350):
     """
     return (Nr-len(mat)-2)/(Nr-1)*np.linalg.inv(mat)
 
-def error_message():
-        print("     ___________")
-        print("    /           \\ ")
-        print("== ( ERROR >.<   ) ==")
-        print("    \\___________/ ")
+def HubblePar( z, O_m, H_0 = 67.11, O_k = 0, O_de = -1, w = -1):
+    """Evaluates the Hubble parameter depending on redshift `z` and cosmological parameters."""
+    if H_0 < 1: H_0 *= 100
+    if O_de == -1: O_de = 1 - (O_m + O_k)
+    # print(z, " ", O_m, " ", H_0, " ", O_de, " ", O_de* (1+z)**(3*(1+w)))
+    A = H_0**2 * (O_m * (1+z)**3 +\
+                  O_k * (1+z)**2 +\
+                  O_de* (1+z)**(3*(1+w))  )
+    return np.sqrt(A)
+
+
+def covariation_matrix(m):
+    """Calculates the correlation matrix of matrix m_ij.
+    """
+    avg = np.average(m, axis=0)    # mean values
+    dim = len(avg)                 # number of variables
+    N = len(m[0])                  # number of values per varaible
+
+    COV = np.zeros((dim, dim))
+    for i in range(dim):
+        for j in range(dim):
+            cum = 0.
+            for k in range(len(m[i])):
+                cum += (avg[i] - m[i][k])*(avg[j] - m[j][k])
+            COV[i, j] = cum/N
+
+    if np.linalg.det(COV) == 0:
+        print("¶ WARNING: correlation matrix is singular")
+    
+    return np.sqrt(COV)
+
+def error_message(a = "ERROR >.<"):
+    N = len(a)
+    print("")
+    print(" "*6 + "_"*N)
+    print(" "*5+"/" + " "*N + "\\")
+    print(" == ( " + a + " ) ==")
+    print(" "*5 + "\\" + "_"*N + "/" )
+    print("")

@@ -27,7 +27,7 @@ from nbodykit.lab import cosmology
 from readfof import FoF_catalog
 from torch import flatten, from_numpy
 
-number_coeff_pk = 159
+number_coeff_pk = 320
 
 # calculate the mean value for all cosmologies
 files_to_proecss = os.listdir('./Pk-files/')

@@ -44,11 +44,13 @@ order_folders = {
 order_dimension = {
     'Om'  : 0, 'Om ' : 0,
     'Ob'  : 1, 'Ob ' : 1, 'Ob2' : 1,
-    'h'   : 2, 'h  ' : 2,
+    'h'   : 4, 'h  ' : 4,
     'ns'  : 3, 'ns ' : 3,
-    's8'  : 4, 's8 ' : 4,
-    'w'   : 5, 'Mnu' : 6
+    's8'  : 2, 's8 ' : 2,
+    'w'   : 6, 'Mnu' : 5
 }
+
+"""Om, Ob, s8, ns, h, Mnu"""
 
 cosmological_pars = {
     'Om'  : 0, 'Ob'  : 1, 'h'   : 2,
