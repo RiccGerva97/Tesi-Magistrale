@@ -44,9 +44,9 @@ order_folders = {
 order_dimension = {
     'Om'  : 0, 'Om ' : 0,
     'Ob'  : 1, 'Ob ' : 1, 'Ob2' : 1,
-    'h'   : 4, 'h  ' : 4,
+    'h'   : 2, 'h  ' : 2, # 4
     'ns'  : 3, 'ns ' : 3,
-    's8'  : 2, 's8 ' : 2,
+    's8'  : 4, 's8 ' : 4, # 2
     'w'   : 6, 'Mnu' : 5
 }
 

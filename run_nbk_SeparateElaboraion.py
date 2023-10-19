@@ -221,19 +221,19 @@ for i in range(7):
             constrains[i, j] = constrains[j, i]
             constrains_rsd[i, j] = constrains_rsd[j, i]
 
-# create correlation graphs, maybe useful to confront with wst
-sns.heatmap(corr.transpose())
-plt.gca().invert_yaxis()
-plt.savefig('correlation_matrix_pk.pdf', format='pdf')
+# # create correlation graphs, maybe useful to confront with wst
+# sns.heatmap(corr.transpose())
+# plt.gca().invert_yaxis()
+# plt.savefig('correlation_matrix_pk.pdf', format='pdf')
 
-sns.heatmap(corr_rsd.transpose())
-plt.gca().invert_yaxis()
-plt.savefig('correlation_matrix_rsd_pk.pdf', format='pdf')
+# sns.heatmap(corr_rsd.transpose())
+# plt.gca().invert_yaxis()
+# plt.savefig('correlation_matrix_rsd_pk.pdf', format='pdf')
 
 # save constrains in a file
 with open("./ZZ_results/constrains_pk.res", "ab") as f:
     pickle.dump(constrains, f)
-with open("./ZZ_results/constrains_rsd_pk.res", "ab") as fd:
+with open("./ZZ_results/constrains_rsd_pk.res", "ab") as f:
     pickle.dump(constrains_rsd, f)
 with open("./ZZ_results/constrains_pk_no_W.res", "ab") as f:
     pickle.dump(constrains_no_W, f)
