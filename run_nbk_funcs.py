@@ -76,6 +76,6 @@ def error_message(a = "ERROR >.<"):
     print("")
     print(" "*6 + "_"*N)
     print(" "*5+"/" + " "*N + "\\")
-    print(" == ( " + a + " ) ==")
+    print(" == | " + a + " | ==")
     print(" "*5 + "\\" + "_"*N + "/" )
     print("")

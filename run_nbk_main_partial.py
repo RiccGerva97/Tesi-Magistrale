@@ -1,3 +1,5 @@
+# this script executes only a folder
+
 import nbodykit
 from nbodykit.lab import *
 from nbodykit import style, setup_logging
@@ -40,7 +42,7 @@ redshift = z_dict[snapnum]
 strt = time.time()
 H_0 = 100 * COSMOPAR["fiducial"][2]
 
-root_in = "/media/fuffolo97/HDD1/UNI/Tesi/more/fiducial"
+root_in = "/media/fuffolo97/HDD1/UNI/Tesi/halos/fiducial/"
 
 # ===================== EVALUATE POWER SPECTRUM ============================================================
 
@@ -49,7 +51,7 @@ number_coeff_pk = 0
 # define dtype for nbk-catalogue
 dtype_cust = [("Position", (np.float32, 3)), ("RSDPosition", (np.float32, 3)), ("Velocity", (np.float32, 3)), ("Mass", np.float32)]
 
-print("Beginning the Power Spectrum data evaluation...")
+error_message("Beginning the Power Spectrum data evaluation...")
 
 realizations = os.listdir(root_in)
 
@@ -103,9 +105,9 @@ for i in tqdm(range(len(realizations))):
     Pk_rsd = r_rsd.power
 
     # store Pk datas in a single file
-    with open('./Pk-files/' + "moreFid" + '_Pk_nbk.pk', 'ab') as file:
+    with open('./Pk-files/fiducial_Pk_nbk.pk', 'ab') as file:
         pickle.dump(Pk, file)
-    with open('./Pk-files/' + "moreFid" + '_Pk_rsd_nbk.pk', 'ab') as file_rsd:
+    with open('./Pk-files/fiducial_Pk_rsd_nbk.pk', 'ab') as file_rsd:
         pickle.dump(Pk_rsd, file_rsd)
 
 error_message("END!")

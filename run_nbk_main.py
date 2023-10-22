@@ -292,12 +292,12 @@ constrains, constrains_rsd = np.zeros((7,7)), np.zeros((7,7))
 
 # `for loop`: assegnate diaconal elements
 for i in range(len(inverse)):
-    diagonal.append(np.abs(inverse[i, i])**0.5)
-    diagonal_rsd.append(np.abs(inverse_rsd[i, i])**0.5)
+    diagonal.append(inverse[i, i])
+    diagonal_rsd.append(inverse_rsd[i, i])
     # internal `for loop`: assegnate all the correlations
     for j in range(7):
-        constrains[i, j] += np.abs(inverse[i, j])**0.5
-        constrains_rsd[i, j] += np.abs(inverse_rsd[i, j])**0.5
+        constrains[i, j] += inverse[i, j]
+        constrains_rsd[i, j] += inverse_rsd[i, j]
         # assert constrains_N_wst[i, j] >= 0
 
 # after checking symmetric elements are almost equal, set them as equal
