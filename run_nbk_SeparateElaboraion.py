@@ -22,7 +22,8 @@ from nbodykit.io.base import FileType
 # nbodykit tool to creae custom subclass od CatalogSource
 from nbodykit.source.catalog.file import FileCatalogFactory
 # nbodykit cosmology parameters initialization
-from nbodykit.lab import cosmology
+from nbodykit.lab import cosmology, FFTPower
+from nbodykit.source.catalog import BinaryCatalog
 
 from readfof import FoF_catalog
 from torch import flatten, from_numpy

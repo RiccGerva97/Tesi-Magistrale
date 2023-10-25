@@ -6,10 +6,12 @@ from nbodykit import style, setup_logging
 import redshift_space_library
 # import corner
 from tqdm import tqdm
+from copy import deepcopy
 import numpy as np
 import seaborn as sns
 import MAS_library as MASL
 import Pk_library as PKL
+import redshift_space_library as RSL
 import matplotlib.pyplot as plt
 
 import sys, pickle, time, os
@@ -73,7 +75,9 @@ for i in tqdm(range(len(realizations))):
         # pos_rsd.append(PacMan(pos_h[i] + (1+redshift) * np.array( ([0, 0, vel[i][2]/H_0]) ) ))
         pos_rsd.append(PacMan(pos_h[i] + (1+redshift) * np.array( ([0, 0, vel[i][2]/ H_cosmo ]) ) ))
     pos_rsd = np.array(pos_rsd, dtype=np.float32)                         # positions in RSD in Mpc/h
-
+    
+    # pos_rsd = deepcopy(pos_h)
+    # pos_rsd = RSL.pos_redshift_space(pos_h, vel, BoxDim, H_cosmo, redshift, axis=2)
     # create fale to store data
     if os.path.exists('./data_source.dat'): os.remove('./data_source.dat')
 
@@ -105,9 +109,9 @@ for i in tqdm(range(len(realizations))):
     Pk_rsd = r_rsd.power
 
     # store Pk datas in a single file
-    with open('./Pk-files/fiducial_Pk_nbk.pk', 'ab') as file:
+    with open('./Pk-files/fiducial_Pk_nbk.pk', 'wb') as file:
         pickle.dump(Pk, file)
-    with open('./Pk-files/fiducial_Pk_rsd_nbk.pk', 'ab') as file_rsd:
+    with open('./Pk-files/fiducial_Pk_rsd_nbk.pk', 'wb') as file_rsd:
         pickle.dump(Pk_rsd, file_rsd)
 
 error_message("END!")

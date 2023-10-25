@@ -23,7 +23,7 @@ def cosmo_parser(name):
     else:
         return info[0] + "_" + info[1]
     
-def PacMan(x, d = np.array((0, 0, 1000)) ):
+def PacMan(x, d = np.array((0, 0, 1000.)) ):
     """Returns a number x in the interval [0; d]"""
     if 0 <= x[2] <= d[2]:
         return x
@@ -42,7 +42,7 @@ def Hartlap(mat, Nr = 350):
 
 def HubblePar( z, O_m, H_0 = 67.11, O_k = 0, O_de = -1, w = -1):
     """Evaluates the Hubble parameter depending on redshift `z` and cosmological parameters."""
-    if H_0 < 1: H_0 *= 100
+    if H_0 < 1.: H_0 *= 100.
     if O_de == -1: O_de = 1 - (O_m + O_k)
     # print(z, " ", O_m, " ", H_0, " ", O_de, " ", O_de* (1+z)**(3*(1+w)))
     A = H_0**2 * (O_m * (1+z)**3 +\
@@ -76,6 +76,6 @@ def error_message(a = "ERROR >.<"):
     print("")
     print(" "*6 + "_"*N)
     print(" "*5+"/" + " "*N + "\\")
-    print(" == | " + a + " | ==")
+    print(" === | " + a + "| ===")
     print(" "*5 + "\\" + "_"*N + "/" )
     print("")

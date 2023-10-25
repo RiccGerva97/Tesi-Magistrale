@@ -1,0 +1,8 @@
+conda update -n base conda
+conda create --name nbk-env
+conda deactivate
+conda activate nbk-env
+conda install -c bccp nbodykit
+pip install kymatio
+pip install Pylians
+conda install pytorch torchvision torchaudio cpuonly -c pytorch
