@@ -111,3 +111,7 @@ le derivate:
   nato l'array e passare come keywords l'indice del ciclo e dare una volta `_p` e l'altra `_m`
   (in questo modo sono anche più sicuro di star passando i valori corretti, non mi affido
   solo a una regola numerica che potrei aver interpretato erroneamente)
+
+## Usare `rsync`
+
+- rsync -P [files or folder] ricc@195.231.75.191:/home/ricc
