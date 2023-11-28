@@ -1,0 +1,15 @@
+*.hdf5
+*pdf
+*.txt
+*.pk
+*.wst
+*.png
+*.npy
+*.res
+
+.pytest_cache/
+Pk_3D_files/
+WST_3D_files/
+WST-files-easy
+Pk-files
+
